@@ -1,0 +1,96 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+#app {  
+  margin: 0 auto;
+  font-weight: normal;
+}
+
+
+body {
+  min-height: 100vh;
+  min-width: 100vw;
+  
+  background-color: theme('colors.light-bg');
+  color: theme('colors.text-light');
+}
+
+a {
+  color: theme('colors.light-purple');
+  text-decoration: none;
+}
+
+
+body.dark {
+  background-color: theme('colors.dark-bg');
+  color: theme('colors.text-dark');
+}
+
+a.dark {
+  color: theme('colors.dark-purple');
+}
+
+
+.header{
+  @apply w-full absolute flex-auto justify-between align-middle text-center m-0 bg-light-purple 
+
+}
+body.dark .header {
+  @apply dark:bg-dark-purple
+}
+
+.btn {
+  @apply bg-light-purple text-white rounded-lg px-4 py-2 cursor-pointer transition-colors duration-300 ease-in-out;
+}
+
+.btn:hover {
+  @apply bg-dark-purple;
+}
+
+
+body.dark .btn {
+  @apply bg-dark-purple text-text-dark;
+}
+
+body.dark .btn:hover {
+  @apply bg-light-purple;
+}
+
+
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Helvetica', sans-serif;
+  font-weight: bold;
+}
+
+p {
+  font-family: 'Arial', sans-serif;
+  line-height: 1.6;
+  color: inherit;
+}
+
+
+a {
+  transition: color 0.3s ease;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: theme('colors.light-purple');
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: theme('colors.dark-purple');
+}
+
