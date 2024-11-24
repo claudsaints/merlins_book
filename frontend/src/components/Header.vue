@@ -1,15 +1,21 @@
 <template>
   <header class="header">
-    <h1>Meu Cabeçalho</h1>
-    <!-- Se houver conteúdo no slot 'search', ele será renderizado aqui -->
-    <div class="search-container">
-      <slot name="search"></slot>
-    </div>
+
+      <h1 class=""> Merlin's Book</h1>
+
+      <div class="search-container">
+        <slot name="search"></slot>
+      </div>
+      <SwitchDarkMode/>
+
+
   </header>
 
 </template>
 
 <script setup lang="ts">
+import SwitchDarkMode from './SwitchDarkMode.vue';
+
 
 </script>
 

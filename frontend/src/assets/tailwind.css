@@ -34,15 +34,23 @@ a.dark {
 
 
 .header{
-  @apply w-full absolute flex-auto justify-between align-middle text-center m-0 bg-light-purple 
+  @apply w-full absolute flex-auto  align-middle text-center mt-0 bg-light-bg border-b-4  border-b-light-purple flex justify-around text-center 
 
 }
 body.dark .header {
-  @apply dark:bg-dark-purple
+  @apply dark:bg-dark-bg border-b-dark-purple
+}
+
+.card{
+  @apply dark:bg-dark-bg text-text-dark  bg-light-bg border-b-4  border-b-light-purple
+}
+
+body.dark .card {
+  @apply dark:bg-light-bg text-text-light border-b-dark-purple
 }
 
 .btn {
-  @apply bg-light-purple text-white rounded-lg px-4 py-2 cursor-pointer transition-colors duration-300 ease-in-out;
+  @apply bg-light-purple text-white rounded-lg px-4 py-2 cursor-pointer transition-colors duration-300 ease-in-out ;
 }
 
 .btn:hover {

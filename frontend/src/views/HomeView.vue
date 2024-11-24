@@ -1,30 +1,29 @@
 <script setup lang="ts">
 import Card from '@/components/Card.vue';
-import SwitchDarkMode from '@/components/SwitchDarkMode.vue'
 import Header from '@/components/Header.vue'
-import type { Books } from '@/types/books';
-import { reactive } from 'vue';
+import { provide, reactive ,watchEffect} from 'vue';
+import{ GoogleBooks} from  '../services/google'
+import type { BookVolume } from '@/types/books';
 
 
-const books = reactive<Books[]>(
-  [
-    {
-      id: 1,
-      title: "Fuga",
-      about:"Livro de terror"
-    },
-    {
-      id: 2,
-      title: "Batman",
-      about:"Amor"
-    },
-    {
-      id: 3,
-      title: "Dragão",
-      about:"Bravo"
-    }
-  ]
-)
+  // Definindo o estado reativo para os livros
+  const books = reactive<BookVolume[]>([]);
+
+  // Utilizando o watchEffect para chamar a função de pesquisa assim que a aplicação é montada
+  watchEffect(async () => {
+  const result = await GoogleBooks.pesquisar();
+
+  if (Array.isArray(result.items)) {
+    books.length = 0; // Limpa o array de livros
+    books.push(...result.items); // Adiciona os itens encontrados ao array reativo
+  } else {
+    console.error("Erro: result.items não é um array", result);
+  }
+
+
+});
+
+provide('books', books);
 
 </script>
 
@@ -32,16 +31,15 @@ const books = reactive<Books[]>(
 
 
 <template>
-  <div class="flex-1">
+
     <Header></Header>
-    <main>
-      <h1>Hello world</h1>
-      <div class="bg-slate-500">
-        <Card v-bind:book="books"/>
-      <SwitchDarkMode/>
-      </div>
-    <button>hi</button>
+    <main class="flex-1 mt-5">
+
+
+        <Card />
+
+
 
     </main>
-  </div>
+
 </template>
