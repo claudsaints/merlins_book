@@ -28,14 +28,26 @@ body.dark {
   color: theme('colors.text-dark');
 }
 
+
+
+
 a.dark {
   color: theme('colors.dark-purple');
 }
 
 
-.header{
-  @apply w-full absolute flex-auto  align-middle text-center mt-0 bg-light-bg border-b-4  border-b-light-purple flex justify-around text-center 
+/* Adicionando estilo global para os inputs */
+.input-custom {
+  @apply w-full p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200;
+}
 
+
+
+
+
+.header{
+  @apply w-full  mt-0 bg-light-bg border-b-4  border-b-light-purple flex h-14  justify-around align-middle  
+  
 }
 body.dark .header {
   @apply dark:bg-dark-bg border-b-dark-purple
@@ -45,13 +57,13 @@ body.dark .header {
   @apply dark:bg-dark-bg text-text-dark  bg-light-bg border-b-4  border-b-light-purple
 }
 
+.btn {
+  @apply bg-light-purple text-white rounded-lg px-4 py-2 cursor-pointer transition-colors duration-300 ease-in-out ;
+}
 body.dark .card {
   @apply dark:bg-light-bg text-text-light border-b-dark-purple
 }
 
-.btn {
-  @apply bg-light-purple text-white rounded-lg px-4 py-2 cursor-pointer transition-colors duration-300 ease-in-out ;
-}
 
 .btn:hover {
   @apply bg-dark-purple;

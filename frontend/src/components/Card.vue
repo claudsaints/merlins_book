@@ -1,23 +1,31 @@
 <script setup lang="ts">
 import type { BookVolume } from '@/types/books';
 import { inject } from 'vue';
+import { useRouter } from 'vue-router'; // Para o redirecionamento
 
 // injetando livros passadas pelo parente
 const books = inject<BookVolume[]>('books', []);
 
-// filtrando saida null ou invalida após renderização
-const filteredBooks = books.filter(book => book && book.volumeInfo?.imageLinks?.thumbnail);
+// Obtendo o router para navegação
+const router = useRouter();
+console.log(books)
+// Função para redirecionar para a página do livro
+const goToBookView = (bookId: string) => {
+  router.push({ name: 'book-view', params: { id: bookId } });
+};
 </script>
 
 <template>
-  <div v-if="filteredBooks.length > 0">
+  <div v-if="books.length > 0">
     <h2 class="text-3xl font-semibold mb-6 text-center">Estante de Livros</h2>
     <div class="container mx-auto p-4">
       <div class="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-5 gap-6">
         <div
-          v-for="book in filteredBooks"
+          v-for="book in books"
           :key="book.id"
-          class="card p-4 shadow-lg transform transition-all hover:scale-90 hover:shadow-xl flex flex-col items-center"
+          :id="book.id"
+          class="card p-4 shadow-lg transform transition-all hover:scale-90 hover:shadow-xl flex flex-col items-center cursor-pointer"
+          @click="goToBookView(book.id)"
         >
 
           <div class="flex justify-center mb-4">

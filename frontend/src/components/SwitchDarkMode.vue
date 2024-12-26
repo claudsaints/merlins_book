@@ -7,7 +7,7 @@
 
 <script setup lang="ts">
   const toggleDarkMode = () => {
-  const htmlElement =  document.firstElementChild.lastChild;
+  const htmlElement =  document.firstElementChild?.lastChild;
   htmlElement.classList.toggle('dark');
   // Salva a escolha no localStorage
   if (htmlElement.classList.contains('dark')) {

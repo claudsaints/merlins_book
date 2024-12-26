@@ -1,21 +1,29 @@
 <template>
   <header class="header">
 
-      <h1 class=""> Merlin's Book</h1>
+      <h1 @click="redirect('/')" class="self-center cursor-pointer"> Merlin's Book</h1>
 
-      <div class="search-container">
-        <slot name="search"></slot>
+
+
+
+      <div v-if="isTrue" class="flex h-auto ">
+        <SwitchDarkMode/>
+
+        <a href="profile"  class="self-center ml-5">Profile</a>
       </div>
-      <SwitchDarkMode/>
-
 
   </header>
 
 </template>
 
 <script setup lang="ts">
+import router from '@/router';
 import SwitchDarkMode from './SwitchDarkMode.vue';
+defineProps<{isTrue: boolean}>()
 
+const redirect = (value:string) => {
+    router.push({ path: value })
+  }
 
 </script>
 
