@@ -11,7 +11,7 @@ const props = {
 // Pegando o ID do livro pela rota
 const route = useRoute();
 const bookId = route.params.id as string;
-console.log(bookId);
+
 
 // Estado reativo para armazenar o livro e a avaliação
 const book = ref<BookVolume | null>(null);
@@ -22,7 +22,7 @@ const review = ref<string>('');
 const fetchBookDetails = async () => {
   try {
     const result = await GoogleBooks.obterDetalhes(bookId);
-    book.value = result.items[0]; // Assume que só um livro será retornado
+    book.value = result;
   } catch (error) {
     console.error("Erro ao buscar detalhes do livro:", error);
   }
@@ -43,8 +43,6 @@ fetchBookDetails();
   <Header v-bind="props"></Header>
   <div v-if="book">
     <h2 class="text-3xl font-semibold mb-6 text-center">{{ book.volumeInfo.title }}</h2>
-
-    <!-- Exibindo as informações do livro -->
     <div class="container mx-auto p-4">
       <div class="flex justify-center mb-4">
         <img
@@ -56,7 +54,8 @@ fetchBookDetails();
       <p><strong>Autor(es):</strong> {{ book.volumeInfo.authors.join(', ') }}</p>
       <p><strong>Editora:</strong> {{ book.volumeInfo.publisher }}</p>
       <p><strong>Data de publicação:</strong> {{ book.volumeInfo.publishedDate }}</p>
-      <p><strong>Descrição:</strong> {{ book.volumeInfo.description }}</p>
+
+      <p><strong>Descrição:</strong> {{ book.volumeInfo.description.replace(/<[^>]*>/g, '') }}</p>
 
       <!-- Seção de avaliação -->
       <div class="mt-6">

@@ -3,10 +3,13 @@ import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import type { BookVolume } from '@/types/books';
 import Header from '@/components/Header.vue';
+import SearchPopUp from '@/components/SearchPopUp.vue';
 
 const props = {
-  isTrue: false
-};
+  isTrue: false,
+
+}
+
 
 // Dados fictícios para ilustrar a página de perfil
 const profileImageIndex = ref(1); // Índice da imagem de perfil selecionada
@@ -41,6 +44,7 @@ const closePopup = () => {
   showPopup.value = false;
 };
 
+
 // Função para adicionar um livro à lista (livros lidos ou lista de desejos)
 const addToList = (book: BookVolume, isLidos: boolean) => {
   if (isLidos) {
@@ -67,7 +71,7 @@ const removeFromList = (book: BookVolume) => {
     <div class="flex items-center justify-center mb-8">
       <div class="w-32 h-32 rounded-full overflow-hidden">
         <img
-          :src="`/assets/profile_images/profile-${profileImageIndex.value}.jpg`"
+          :src="`/assets/profile_images/profile-${profileImageIndex}.jpg`"
           alt="Imagem de Perfil"
           class="w-full h-full object-cover"
         />
@@ -159,9 +163,10 @@ const removeFromList = (book: BookVolume) => {
   </div>
 
   <!-- Componente Pop-up de Pesquisa -->
-  <SearchPopup
-    :show="showPopup"
-    @close="closePopup"
+  <SearchPopUp
+    v-model="showPopup" @close="closePopup"
+
+
     @addBook="addToList"
   />
 </template>

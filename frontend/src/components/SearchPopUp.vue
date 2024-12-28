@@ -1,33 +1,68 @@
 <script setup lang="ts">
-import {  defineEmits } from 'vue';
-import { BookVolume } from '@/types/books';
+import type { BookVolume } from '@/types/books';
+import { defineProps, defineEmits,reactive ,ref} from 'vue';
+import { GoogleBooks } from '../services/google';
 
 
+defineProps({
+  modelValue: Boolean
+});
 
-const emit = defineEmits(['close', 'addBook']);
+const books = reactive<BookVolume[]>([]);
+const searchQuery = ref('');
 
-// Função para fechar o pop-up
-const closePopup = () => {
-  emit('close');
+const emit = defineEmits<{
+  (e: 'update:modelValue', value: boolean): void;
+}>();
+
+const addBook = (book:BookVolume) => {
+  console.log(book)
+}
+
+
+// Função para fechar o popup
+function close() {
+  // Emitir o evento 'update:modelValue' para atualizar a variável no pai
+  emit('update:modelValue', false);
+}
+
+
+const pesquisarLivros = async () => {
+  try {
+    const result = await GoogleBooks.pesquisarPorQuery(searchQuery.value);
+    if (Array.isArray(result.items)) {
+      books.length = 0;
+      books.push(...result.items);
+    } else {
+      console.error("Erro: result.items não é um array", result);
+    }
+  } catch (err) {
+    console.error("Erro ao buscar livros:", err);
+  }
+
 };
 
-// Função para adicionar livro ao clicar em "Adicionar"
-const addBook = (book: BookVolume) => {
-  emit('addBook', book);
-};
 </script>
 
 <template>
-  <div v-if="show" class="fixed inset-0 bg-gray-600 bg-opacity-50 flex justify-center items-center">
-    <div class="bg-white p-6 rounded-lg shadow-xl w-11/12 sm:w-96">
-      <div class="mb-4">
+  <div v-if="modelValue" class="fixed inset-0 bg-gray-600 bg-opacity-50 flex justify-center items-center">
+    <div class="bg-white h-3/4 p-6 rounded-lg shadow-xl w-11/12 sm:w-96">
+      <div class="mb-4 flex">
         <input
+         v-model="searchQuery"
+        @keyup.enter="pesquisarLivros"
           type="text"
           placeholder="Pesquisar livro..."
           class="w-full p-2 border rounded-md"
         />
+        <button
+        @click="pesquisarLivros"
+        class="ml-2 px-4 py-2 btn text-white rounded-lg"
+      >
+        Pesquisar
+      </button>
       </div>
-      <div class="mb-4 grid grid-cols-1 sm:grid-cols-2 gap-4">
+      <div class="mb-4 flex h-3/4  gap-4 flex-col overflow-scroll">
         <div v-for="book in books" :key="book.id" class="card p-4 shadow-md flex flex-col items-center">
           <img
             v-bind:src="book.volumeInfo.imageLinks.thumbnail"
@@ -43,7 +78,7 @@ const addBook = (book: BookVolume) => {
         </div>
       </div>
       <button
-        @click="closePopup"
+        @click="close"
         class="mt-4 w-full bg-gray-500 text-white py-2 rounded"
       >
         Fechar
@@ -53,7 +88,7 @@ const addBook = (book: BookVolume) => {
 </template>
 
 <style scoped>
-/* Estilo do pop-up */
+
 .card {
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }

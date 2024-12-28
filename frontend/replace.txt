@@ -1,0 +1,28 @@
+Para remover as tags HTML de um texto em JavaScript e manter apenas o conteúdo, você pode usar uma expressão regular (regex). A expressão regular irá capturar tudo que está entre os sinais `<` e `>`, incluindo as tags HTML, e substituí-las por uma string vazia.
+
+Aqui está uma maneira simples de fazer isso:
+
+### Código em JavaScript:
+```javascript
+function removerTagsHTML(texto) {
+    return texto.replace(/<[^>]*>/g, '');
+}
+
+let textoComTags = "<p>oi tudo bem</p>";
+let textoSemTags = removerTagsHTML(textoComTags);
+
+console.log(textoSemTags);  // Output: "oi tudo bem"
+```
+
+### Explicação:
+- `/ <[^>]*> /g`: Essa expressão regular faz o seguinte:
+  - `<`: Começo de uma tag.
+  - `[^>]*`: Qualquer caractere que não seja `>`, repetido quantas vezes for necessário.
+  - `>`: Fim de uma tag.
+  - `g`: Flag global para garantir que todas as ocorrências sejam substituídas, não apenas a primeira.
+
+### Detalhes:
+- **O que a função faz?** A função `removerTagsHTML` pega um texto e remove todas as tags HTML, mantendo apenas o conteúdo textual.
+- **Exemplo de uso:** Dado o texto `<p>oi tudo bem</p>`, o código retornará `"oi tudo bem"`, sem as tags `<p>`.
+
+Esse método é eficaz para remover as tags HTML de uma string. No entanto, se você tiver um conteúdo HTML mais complexo (com atributos, por exemplo), essa abordagem ainda funcionará bem, mas não realizará a validação do conteúdo HTML. Para validar ou manipular HTML de forma mais robusta, seria necessário usar uma biblioteca como o [DOMParser](https://developer.mozilla.org/en-US/docs/Web/API/DOMParser) ou uma biblioteca externa como o `cheerio` (para Node.js).

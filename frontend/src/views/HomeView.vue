@@ -123,6 +123,3 @@ provide('books', books);
   </main>
 </template>
 
-<style scoped>
-/* Adicionando estilos se necessário */
-</style>

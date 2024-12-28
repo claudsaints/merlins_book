@@ -101,7 +101,7 @@ export class GoogleBooks {
           key: key,
         }
       });
-
+      console.log(data)
       return data; // Retorna diretamente o objeto BookVolume
     } catch (err) {
       console.error("[PSIU] erro ao obter detalhes do livro: ", err);
