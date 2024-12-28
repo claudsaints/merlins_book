@@ -62,13 +62,13 @@ const pesquisarLivros = async () => {
         Pesquisar
       </button>
       </div>
-      <div class="mb-4 flex h-3/4  gap-4 flex-col overflow-scroll">
-        <div v-for="book in books" :key="book.id" class="card p-4 shadow-md flex flex-col items-center">
+      <div class="mb-4 flex h-3/4  gap-4 flex-col overflow-scroll items-center">
+        <div v-for="book in books" :key="book.id" class="card p-4 w-3/4 shadow-md flex flex-col items-center">
           <img
             v-bind:src="book.volumeInfo.imageLinks.thumbnail"
             class="h-48 w-auto object-cover rounded-md shadow-md"
           />
-          <h4 class="text-center mt-2 truncate">{{ book.volumeInfo.title }}</h4>
+          <h3 class="text-lg font-medium text-center truncate overflow-hidden text-ellipsis max-w-full">{{ book.volumeInfo.title }}</h3>
           <button
             @click="addBook(book)"
             class="mt-2 bg-blue-500 text-white py-2 px-4 rounded"
@@ -79,7 +79,7 @@ const pesquisarLivros = async () => {
       </div>
       <button
         @click="close"
-        class="mt-4 w-full bg-gray-500 text-white py-2 rounded"
+        class="mt-2 w-full bg-gray-500 text-white py-2 rounded"
       >
         Fechar
       </button>

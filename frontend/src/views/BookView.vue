@@ -76,7 +76,7 @@ fetchBookDetails();
         </div>
 
         <!-- Botão de envio -->
-        <button @click="submitReview" class="mt-4 bg-blue-500 text-white py-2 px-4 rounded">Enviar Avaliação</button>
+        <button @click="submitReview" class="mt-4 bg-light-purple text-white py-2 px-4 rounded">Enviar Avaliação</button>
       </div>
     </div>
   </div>

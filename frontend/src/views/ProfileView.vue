@@ -153,7 +153,7 @@ const removeFromList = (book: BookVolume) => {
           <p class="text-center text-sm italic">{{ avaliacao.review }}</p>
           <button
             @click="goToBookView(avaliacao.id)"
-            class="mt-4 bg-blue-500 text-white py-2 px-4 rounded"
+            class="mt-4 bg-light-purple text-white py-2 px-4 rounded"
           >
             Ver Livro
           </button>
