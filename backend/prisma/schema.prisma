@@ -25,9 +25,11 @@ model User {
 }
 
 model BooksInteraction {
-  id        Int      @id @default(autoincrement())
-  status    String   @unique
-  bookId    String   @unique
+  id       Int    @id @default(autoincrement())
+  status   String @unique
+  bookId   String @unique
+  title    String
+  link_img String
   userId    Int
   user      User     @relation(fields: [userId], references: [id])
   createdAt DateTime @default(now())
@@ -42,3 +44,4 @@ model Reviews {
   user      User     @relation(fields: [userId], references: [id])
   createdAt DateTime @default(now())
 }
+

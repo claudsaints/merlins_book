@@ -1,4 +1,4 @@
-import { MiddlewareConsumer, Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, RequestMethod } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { PrismaModule } from './prisma/prisma.module';
@@ -31,6 +31,16 @@ import { JwtMiddleware } from './middleware/jwt.middleware';
 })
 export class AppModule {
   configure(consumer: MiddlewareConsumer) {
-    consumer.apply(JwtMiddleware).exclude('users').forRoutes('*');
+    consumer
+      .apply(JwtMiddleware)
+      .exclude(
+        {
+          path: '/users/register',
+          method: RequestMethod.POST,
+        },
+        { path: '/users/login', method: RequestMethod.POST },
+      )
+
+      .forRoutes('*');
   }
 }

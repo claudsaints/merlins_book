@@ -18,6 +18,8 @@ CREATE TABLE `BooksInteraction` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `status` VARCHAR(191) NOT NULL,
     `bookId` VARCHAR(191) NOT NULL,
+    `title` VARCHAR(191) NOT NULL,
+    `link_img` VARCHAR(191) NOT NULL,
     `userId` INTEGER NOT NULL,
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
 
@@ -29,11 +31,13 @@ CREATE TABLE `BooksInteraction` (
 -- CreateTable
 CREATE TABLE `Reviews` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `bookId` VARCHAR(191) NOT NULL,
     `rate` INTEGER NOT NULL,
     `comment` VARCHAR(191) NOT NULL,
     `userId` INTEGER NOT NULL,
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
 
+    UNIQUE INDEX `Reviews_bookId_key`(`bookId`),
     UNIQUE INDEX `Reviews_rate_key`(`rate`),
     UNIQUE INDEX `Reviews_comment_key`(`comment`),
     PRIMARY KEY (`id`)
