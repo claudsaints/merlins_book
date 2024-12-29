@@ -21,6 +21,7 @@ export class BooksController {
     data: {
       status: string;
       bookId: string;
+      userId: number;
     },
   ) {
     return this.booksService.removeBook(data);

@@ -31,6 +31,6 @@ import { JwtMiddleware } from './middleware/jwt.middleware';
 })
 export class AppModule {
   configure(consumer: MiddlewareConsumer) {
-    consumer.apply(JwtMiddleware).forRoutes();
+    consumer.apply(JwtMiddleware).exclude('users').forRoutes('*');
   }
 }

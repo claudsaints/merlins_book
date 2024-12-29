@@ -8,7 +8,7 @@ export class BooksService {
   async saveBook(data: { status: string; bookId: string; userId: number }) {
     return this.prisma.booksInteraction.create({ data });
   }
-  async removeBook(data: { status: string; bookId: string }) {
+  async removeBook(data: { status: string; bookId: string; userId: number }) {
     return this.prisma.booksInteraction.delete({ where: data });
   }
   async findAll() {
