@@ -5,7 +5,7 @@ import { UsersService } from './users.service';
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
-  @Post()
+  @Post('/register')
   createUser(
     @Body()
     data: {
@@ -16,6 +16,16 @@ export class UsersController {
     },
   ) {
     return this.usersService.createUser(data);
+  }
+  @Post('/login')
+  authUser(
+    @Body()
+    data: {
+      email: string;
+      password: string;
+    },
+  ) {
+    return this.usersService.login(data.email, data.password);
   }
 
   @Get()
