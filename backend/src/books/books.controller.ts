@@ -5,7 +5,7 @@ import { Response } from '@nestjs/common';
 @Controller('books')
 export class BooksController {
   constructor(private readonly booksService: BooksService) {}
-  @Post()
+  @Post('/create')
   saveBook(
     @Body()
     data: {
@@ -18,7 +18,7 @@ export class BooksController {
   ) {
     return this.booksService.saveBook(data);
   }
-  @Delete()
+  @Delete('/delete')
   removeBook(
     @Body()
     data: {
@@ -29,7 +29,7 @@ export class BooksController {
   ) {
     return this.booksService.removeBook(data);
   }
-  @Get('/saves')
+  @Get('/find')
   findSaves(@Response() res) {
     console.log(res.locals.sub);
     return this.booksService

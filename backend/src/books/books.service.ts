@@ -20,9 +20,14 @@ export class BooksService {
   async findUserSaves(sub: number) {
     console.log('sub: ' + sub);
     try {
-      const data = await this.prisma.booksInteraction.findFirst({
-        where: { userId: { equals: sub } },
+      const read = await this.prisma.booksInteraction.findFirst({
+        where: { userId: { equals: sub }, AND: { status: 'read' } },
       });
+      const wishlist = await this.prisma.booksInteraction.findFirst({
+        where: { userId: { equals: sub }, AND: { status: 'wishlist' } },
+      });
+
+      const data = { wishlist: wishlist, read: read };
       console.log(data);
 
       return data;

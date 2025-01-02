@@ -15,6 +15,22 @@ export class ReviewsService {
       data,
     });
   }
+  async findReviewsOfBook(bookId: string) {
+    try {
+      const data = this.prisma.reviews.findMany({ where: { bookId: bookId } });
+      return data;
+    } catch (error) {
+      return error;
+    }
+  }
+  async findReviewsOfUser(userId: number) {
+    try {
+      const data = this.prisma.reviews.findMany({ where: { userId: userId } });
+      return data;
+    } catch (error) {
+      return error;
+    }
+  }
 
   async findAll() {
     return this.prisma.user.findMany();

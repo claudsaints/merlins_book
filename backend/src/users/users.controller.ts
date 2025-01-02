@@ -1,5 +1,13 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  HttpException,
+  HttpStatus,
+  Post,
+} from '@nestjs/common';
 import { UsersService } from './users.service';
+import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
 
 @Controller('users')
 export class UsersController {
@@ -15,7 +23,22 @@ export class UsersController {
       profile_img: string;
     },
   ) {
-    return this.usersService.createUser(data);
+    return this.usersService
+      .createUser(data)
+      .then((r) => {
+        const response = { message: `${r.nickname}'s record was a sucess` };
+        return response;
+      })
+      .catch((error: PrismaClientKnownRequestError) => {
+        throw new HttpException(
+          {
+            status: HttpStatus.CONFLICT,
+            error: 'Nickname or Email already exists.',
+          },
+          HttpStatus.CONFLICT,
+          { cause: error },
+        );
+      });
   }
   @Post('/login')
   authUser(

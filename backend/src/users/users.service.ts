@@ -17,6 +17,7 @@ export class UsersService {
   }) {
     const hashed_pswd = await bcrypt.hash(data.password, 8);
     data.password = hashed_pswd;
+
     return this.prisma.user.create({
       data,
     });
