@@ -1,10 +1,10 @@
 <template>
-  <main>
+  <main class="flex flex-row">
     <AuthViewModel v-bind="props">
 
-      <div class="w-full max-w-md mx-auto p-6 bg-white shadow-md rounded-lg">
+      <div class="w-full max-w-md mx-auto p-6 bg-white  ">
         <!-- Título de Login -->
-        <h2 class="text-2xl font-bold text-center mb-4">Login</h2>
+        <h2 class="text-2xl text-black font-bold text-center mb-4">Login</h2>
 
         <!-- Formulário de Login -->
         <form @submit.prevent="handleLogin">
@@ -19,29 +19,33 @@
               class="input-custom" />
           </div>
 
-          <!-- Botão de Login -->
-          <button type="submit"
-            class="btn w-full py-2">
+
+          <LoadingButton  :isLoading="isSubmitting">
             Entrar
-          </button>
+          </LoadingButton>
         </form>
       </div>
     </AuthViewModel>
+    <MageImage/>
 
   </main>
 </template>
 
 <script setup lang="ts">
 import AuthViewModel from '@/components/AuthViewModel.vue';
-import { reactive } from 'vue';
+import MageImage from '@/components/MageImage.vue';
+import LoadingButton from '@/components/LoadingButton.vue';
+import { Auth } from '@/services/auth';
+import { reactive,ref } from 'vue';
+import router from '@/router';
 
-// Definindo a interface para os inputs de login
+const isSubmitting = ref(false);
+
 interface LoginProps {
   email: string;
   password: string;
 }
 
-// Criando o objeto reativo para o login
 const form = reactive<LoginProps>({
   email: '',
   password: ''
@@ -52,14 +56,12 @@ const props = {
   button_ref: "signup"
 }
 
-    function  handleLogin() {
-      // Lógica para login aqui, como chamar um serviço de autenticação
-      console.log('Login realizado com:', this.form);
-      // Exemplo: Fazer a requisição para a API de login ou redirecionar o usuário.
-    }
+function handleLogin() {
+  isSubmitting.value = true;
+  Auth.signIn(form.email, form.password)
+  .then(() => router.push('/home'))
+  .finally(() => isSubmitting.value = false);
+
+}
 
 </script>
-
-<style scoped>
-
-</style>

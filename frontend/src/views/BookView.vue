@@ -42,7 +42,7 @@ fetchBookDetails();
 <template>
   <Header v-bind="props"></Header>
   <div v-if="book">
-    <h2 class="text-3xl font-semibold mb-6 text-center">{{ book.volumeInfo.title }}</h2>
+    <h2 class="text-3xl font-semibold mb-6 mt-5 text-center">{{ book.volumeInfo.title }}</h2>
     <div class="container mx-auto p-4">
       <div class="flex justify-center mb-4">
         <img

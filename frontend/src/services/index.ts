@@ -1,7 +1,7 @@
 import axios,{type AxiosInstance} from 'axios'
 
 
-const base = import.meta.env.BASE_URL;
+const base = import.meta.env.VITE_BASE_URL;
 
 export const google_api:AxiosInstance = axios.create({
   baseURL: "https://www.googleapis.com/books/v1",

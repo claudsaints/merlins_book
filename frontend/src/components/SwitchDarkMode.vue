@@ -2,20 +2,21 @@
   <button @click="toggleDarkMode" class="btn">
     Alternar Modo
   </button>
-
 </template>
 
 <script setup lang="ts">
-  const toggleDarkMode = () => {
-  const htmlElement =  document.firstElementChild?.lastChild;
+
+const toggleDarkMode = () => {
+  const htmlElement = document.body;
   htmlElement.classList.toggle('dark');
-  // Salva a escolha no localStorage
+
+  //local storage
   if (htmlElement.classList.contains('dark')) {
     localStorage.setItem('theme', 'dark');
   } else {
     localStorage.setItem('theme', 'light');
   }
 }
-</script>
 
+</script>
 

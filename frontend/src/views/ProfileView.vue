@@ -11,9 +11,9 @@ const props = {
 }
 
 
-// Dados fictícios para ilustrar a página de perfil
+//data
 const profileImageIndex = ref(1); // Índice da imagem de perfil selecionada
-const nickname = ref('Usuário Exemplo'); // Nome de usuário fictício
+const nickname = ref('Usuário Exemplo'); // ex name
 
 // Listas de livros (lidos, desejos, avaliações)
 const booksLidos = ref<BookVolume[]>([]);
@@ -33,15 +33,18 @@ const goToBookView = (bookId: string) => {
 
 // Controle de visibilidade do pop-up
 const showPopup = ref(false);
+const _popId = ref('');
 
 // Função para abrir o pop-up
-const openPopup = () => {
+const openPopup = (popId:string) => {
   showPopup.value = true;
+  _popId.value = popId;
 };
 
 // Função para fechar o pop-up
 const closePopup = () => {
   showPopup.value = false;
+  _popId.value = ''
 };
 
 
@@ -71,9 +74,9 @@ const removeFromList = (book: BookVolume) => {
     <div class="flex items-center justify-center mb-8">
       <div class="w-32 h-32 rounded-full overflow-hidden">
         <img
-          :src="`/assets/profile_images/profile-${profileImageIndex}.jpg`"
+          :src="`/${profileImageIndex}.png`"
           alt="Imagem de Perfil"
-          class="w-full h-full object-cover"
+          class="w-full h-full object"
         />
       </div>
       <div class="ml-4">
@@ -98,8 +101,8 @@ const removeFromList = (book: BookVolume) => {
         </div>
       </div>
       <button
-        @click="openPopup"
-        class="mt-4 bg-green-500 text-white py-2 px-4 rounded"
+        @click="openPopup('read')"
+        class="mt-4 bg-green-400 text-white py-2 px-4 rounded"
       >
         +
       </button>
@@ -128,8 +131,8 @@ const removeFromList = (book: BookVolume) => {
         </div>
       </div>
       <button
-        @click="openPopup"
-        class="mt-4 bg-green-500 text-white py-2 px-4 rounded"
+        @click="openPopup('wishlist')"
+        class="mt-4 bg-green-400 text-white py-2 px-4 rounded"
       >
         +
       </button>
@@ -150,10 +153,10 @@ const removeFromList = (book: BookVolume) => {
               <span v-else>☆</span>
             </span>
           </div>
-          <p class="text-center text-sm italic">{{ avaliacao.review }}</p>
+          <p class="text-center text-black text-sm italic">{{ avaliacao.review }}</p>
           <button
             @click="goToBookView(avaliacao.id)"
-            class="mt-4 bg-light-purple text-white py-2 px-4 rounded"
+            class="mt-4 btn py-2 px-4 "
           >
             Ver Livro
           </button>
@@ -164,7 +167,8 @@ const removeFromList = (book: BookVolume) => {
 
   <!-- Componente Pop-up de Pesquisa -->
   <SearchPopUp
-    v-model="showPopup" @close="closePopup"
+    :popId="_popId"
+    v-model="showPopup"  @close="closePopup"
 
 
     @addBook="addToList"

@@ -4,16 +4,20 @@ import { defineProps, defineEmits,reactive ,ref} from 'vue';
 import { GoogleBooks } from '../services/google';
 
 
-defineProps({
-  modelValue: Boolean
+const props = defineProps({
+  modelValue: Boolean,
+  popId: String
 });
+
 
 const books = reactive<BookVolume[]>([]);
 const searchQuery = ref('');
 
 const emit = defineEmits<{
   (e: 'update:modelValue', value: boolean): void;
+
 }>();
+
 
 const addBook = (book:BookVolume) => {
   console.log(book)
@@ -23,7 +27,9 @@ const addBook = (book:BookVolume) => {
 // Função para fechar o popup
 function close() {
   // Emitir o evento 'update:modelValue' para atualizar a variável no pai
+  console.log(props.popId)
   emit('update:modelValue', false);
+
 }
 
 

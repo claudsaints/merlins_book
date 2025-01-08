@@ -1,5 +1,6 @@
 Para remover as tags HTML de um texto em JavaScript e manter apenas o conteúdo, você pode usar uma expressão regular (regex). A expressão regular irá capturar tudo que está entre os sinais `<` e `>`, incluindo as tags HTML, e substituí-las por uma string vazia.
 
+
 Aqui está uma maneira simples de fazer isso:
 
 ### Código em JavaScript:
