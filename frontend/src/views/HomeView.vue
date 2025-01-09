@@ -5,15 +5,15 @@ import { provide, reactive, watchEffect, ref } from 'vue';
 import { GoogleBooks } from '../services/google';
 import type { BookVolume } from '@/types/books';
 
-// Estado reativo para os livros
+
 const books = reactive<BookVolume[]>([]);
-const searchQuery = ref(''); // Para armazenar a pesquisa do usuário
+const searchQuery = ref('');
 const props = { isTrue: true};
 
-// Função para pesquisar livros
+
 const pesquisarLivros = async () => {
   if (searchQuery.value.trim() === '') {
-    // Se não houver pesquisa, exibe os livros populares
+
     await buscarLivrosPopulares();
   } else {
     try {
@@ -30,7 +30,7 @@ const pesquisarLivros = async () => {
   }
 };
 
-// Função para buscar livros populares
+
 const buscarLivrosPopulares = async () => {
   const result = await GoogleBooks.buscarLivrosPopulares();
   if (Array.isArray(result.items)) {
@@ -39,7 +39,7 @@ const buscarLivrosPopulares = async () => {
   }
 };
 
-// Função para buscar livros bem avaliados
+
 const buscarLivrosBemAvaliados = async () => {
   const result = await GoogleBooks.buscarLivrosBemAvaliados();
   if (Array.isArray(result.items)) {
@@ -48,7 +48,7 @@ const buscarLivrosBemAvaliados = async () => {
   }
 };
 
-// Função para buscar livros gratuitos
+
 const buscarLivrosGratuitos = async () => {
   const result = await GoogleBooks.buscarLivrosGratuitos();
   if (Array.isArray(result.items)) {
@@ -58,12 +58,12 @@ const buscarLivrosGratuitos = async () => {
 };
 
 
-// Chama a função de busca ao carregar a página
+
 watchEffect(() => {
   buscarLivrosPopulares();
 });
 
-// Prover os livros para o componente Card
+
 provide('books', books);
 </script>
 
