@@ -5,17 +5,21 @@ import { PrismaService } from 'src/prisma/prisma.service';
 export class BooksService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async saveBook(data: {
-    status: string;
-    bookId: string;
-    userId: number;
-    link_img: string;
-    title: string;
-  }) {
-    return this.prisma.booksInteraction.create({ data });
+  async saveBook(
+    data: {
+      status: string;
+      bookId: string;
+      link_img: string;
+      title: string;
+    },
+    userId: number,
+  ) {
+    const ndata = { ...data, userId };
+    return this.prisma.booksInteraction.create({ data: ndata });
   }
-  async removeBook(data: { status: string; bookId: string; userId: number }) {
-    return this.prisma.booksInteraction.delete({ where: data });
+  async removeBook(data: { status: string; bookId: string }, userId: number) {
+    const ndata = { ...data, userId };
+    return this.prisma.booksInteraction.delete({ where: ndata });
   }
   async findUserSaves(sub: number) {
     console.log('sub: ' + sub);

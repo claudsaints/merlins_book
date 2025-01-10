@@ -19,8 +19,10 @@ export class Auth{
     try {
       await merlins_api.post("/users/login",{email,password})
       .then((res) => {
-        const {token} = res.data;
-        sessionStorage.setItem('token',token);
+        const {access_token,nickname,profile_img} = res.data;
+        sessionStorage.setItem('token',access_token);
+        sessionStorage.setItem('nickname',nickname);
+        sessionStorage.setItem('profile_img',profile_img);
       })
     } catch (err) {
       console.log("[PSIU] erro ao autenticar: ",err)

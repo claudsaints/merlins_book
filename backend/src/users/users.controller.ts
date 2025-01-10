@@ -5,9 +5,11 @@ import {
   HttpException,
   HttpStatus,
   Post,
+  Put,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
+import { Response } from '@nestjs/common';
 
 @Controller('users')
 export class UsersController {
@@ -49,6 +51,12 @@ export class UsersController {
     },
   ) {
     return this.usersService.login(data.email, data.password);
+  }
+  @Put('/image')
+  updateImage(@Response() res, @Body() choice: string) {
+    return this.usersService
+      .updateProfileImage(choice, res.locals.sub)
+      .then(() => res.json({ message: 'Image Update Has Sucess' }));
   }
 
   @Get()

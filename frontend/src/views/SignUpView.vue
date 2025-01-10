@@ -57,6 +57,7 @@ import AuthViewModel from '@/components/AuthViewModel.vue';
 import MageImage from '@/components/MageImage.vue';
 import {Auth} from '@/services/auth';
 import { reactive,ref } from 'vue';
+import LoadingButton from '@/components/LoadingButton.vue'
 import router from '@/router';
 const isSubmitting = ref(false);
 const props = {

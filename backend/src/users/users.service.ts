@@ -30,7 +30,24 @@ export class UsersService {
     if (!passwordMatch) throw new Error('Invalid password');
 
     const payload = { email: user.email, sub: user.id };
-    return { access_token: this.jwtService.sign(payload) };
+    return {
+      access_token: this.jwtService.sign(payload),
+      nickname: user.nickname,
+      profile_img: user.profile_img,
+    };
+  }
+
+  async updateProfileImage(choice: string, sub: number) {
+    try {
+      await this.prisma.user.update({
+        data: { profile_img: choice },
+        where: {
+          id: sub,
+        },
+      });
+    } catch (error) {
+      console.log('error', error);
+    }
   }
 
   async findAll() {

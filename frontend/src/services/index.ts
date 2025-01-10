@@ -2,6 +2,7 @@ import axios,{type AxiosInstance} from 'axios'
 
 
 const base = import.meta.env.VITE_BASE_URL;
+const token = sessionStorage.getItem('token')
 
 export const google_api:AxiosInstance = axios.create({
   baseURL: "https://www.googleapis.com/books/v1",
@@ -13,7 +14,7 @@ export const google_api:AxiosInstance = axios.create({
 export const merlins_api:AxiosInstance = axios.create({
   baseURL: base,
   headers: {
-    "Content-Type": "application/json"
-
+    "Content-Type": "application/json",
+    "Authorization": "Bearer " + token
   }
 })

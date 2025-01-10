@@ -25,8 +25,9 @@
 </template>
 
 <script setup lang="ts">
-import {defineProps, inject, ref} from 'vue'
+import {defineProps, inject, reactive,  watchEffect} from 'vue'
 import type { SaveBook } from '@/types/api';
+import { Books } from '@/services/books';
 
 const props = defineProps({
   title: String,
@@ -36,9 +37,15 @@ const props = defineProps({
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const openPopup: any = inject('open');
 
-const data = ref<SaveBook[]>([])
+const data = reactive<SaveBook[]>([])
 
+watchEffect(() => {
+  Books.getUserSaves().then((d) => {
+    if(props.type == 'wishlist') data.push(d.wishlist);
+    else data.push(d.read)
 
+  });
+},)
 // const removeFromList = () => {
 
 // };

@@ -7,27 +7,27 @@ export class BooksController {
   constructor(private readonly booksService: BooksService) {}
   @Post('/create')
   saveBook(
+    @Response() res,
     @Body()
     data: {
       status: string;
       bookId: string;
-      userId: number;
       link_img: string;
       title: string;
     },
   ) {
-    return this.booksService.saveBook(data);
+    return this.booksService.saveBook(data, res.locals.sub);
   }
   @Delete('/delete')
   removeBook(
+    @Response() res,
     @Body()
     data: {
       status: string;
       bookId: string;
-      userId: number;
     },
   ) {
-    return this.booksService.removeBook(data);
+    return this.booksService.removeBook(data, res.locals.sub);
   }
   @Get('/find')
   findSaves(@Response() res) {

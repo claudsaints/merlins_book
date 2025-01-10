@@ -7,16 +7,16 @@ import ProfileImage from '@/components/ProfileImage.vue';
 import Rating from '@/components/Rating.vue';
 import ProfileSaves from '@/components/ProfileSaves.vue';
 
+import type { SaveBook } from '@/types/api';
+
 const props = {
   isTrue: false,
 }
 
-const image = ref('default');
-const nickname = ref('Usuário Exemplo');
 
 
-const booksLidos = ref<BookVolume[]>([]);
-const listaDesejos = ref<BookVolume[]>([]);
+const booksLidos = ref<SaveBook[]>([]);
+const listaDesejos = ref<SaveBook[]>([]);
 
 
 const showPopup = ref(false);
@@ -52,7 +52,7 @@ provide('open', openPopup);
 <template>
   <Header v-bind="props"></Header>
   <div class="container mx-auto p-4">
-    <ProfileImage :nickname="nickname" :profileImageName="image" />
+    <ProfileImage/>
     <ProfileSaves title="Livros Lidos" type="read" />
     <ProfileSaves title="Lista de desejo" type="wishlist" />
     <Rating />

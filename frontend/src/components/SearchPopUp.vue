@@ -2,11 +2,11 @@
 import type { BookVolume } from '@/types/books';
 import { defineProps, defineEmits,reactive ,ref} from 'vue';
 import { GoogleBooks } from '../services/google';
-
+import { Books } from '@/services/books';
 
 const props = defineProps({
   modelValue: Boolean,
-  popId: String
+  popId: {type: String, required: true}
 });
 
 
@@ -19,12 +19,8 @@ const emit = defineEmits<{
 }>();
 
 
-const addBook = (book:BookVolume) => {
-  console.log(book)
-}
 
 
-// Função para fechar o popup
 function close() {
   // Emitir o evento 'update:modelValue' para atualizar a variável no pai
   console.log(props.popId)
@@ -53,7 +49,7 @@ const pesquisarLivros = async () => {
 <template>
   <div v-if="modelValue" class="fixed inset-0 bg-gray-600 bg-opacity-50 flex justify-center items-center">
     <div class="bg-white h-3/4 p-6 rounded-lg shadow-xl w-11/12 sm:w-96">
-      <div class="mb-4 flex">
+      <div class="mb-4 flex text-black">
         <input
          v-model="searchQuery"
         @keyup.enter="pesquisarLivros"
@@ -76,8 +72,8 @@ const pesquisarLivros = async () => {
           />
           <h3 class="text-lg font-medium text-center truncate overflow-hidden text-ellipsis max-w-full">{{ book.volumeInfo.title }}</h3>
           <button
-            @click="addBook(book)"
-            class="mt-2 bg-blue-500 text-white py-2 px-4 rounded"
+            @click="Books.saveBook(props.popId,book.id,book.volumeInfo.imageLinks.thumbnail,book.volumeInfo.title)"
+            class="mt-2 bg-green-500 text-white py-2 px-4 rounded"
           >
             Adicionar
           </button>

@@ -26,8 +26,8 @@ model User {
 
 model BooksInteraction {
   id       Int    @id @default(autoincrement())
-  status   String @unique
   bookId   String @unique
+  status   String 
   title    String
   link_img String
   userId    Int
@@ -38,8 +38,8 @@ model BooksInteraction {
 model Reviews {
   id        Int      @id @default(autoincrement())
   bookId    String   @unique
-  rate      Int      @unique
-  comment   String   @unique
+  rate      Int      
+  comment   String   
   userId    Int
   user      User     @relation(fields: [userId], references: [id])
   createdAt DateTime @default(now())
