@@ -16,18 +16,21 @@ export class BooksController {
       title: string;
     },
   ) {
-    return this.booksService.saveBook(data, res.locals.sub);
+    return this.booksService
+      .saveBook(data, res.locals.sub)
+      .then(() => res.json({ message: 'Book has save' }));
   }
   @Delete('/delete')
   removeBook(
     @Response() res,
     @Body()
     data: {
-      status: string;
-      bookId: string;
+      id: number;
     },
   ) {
-    return this.booksService.removeBook(data, res.locals.sub);
+    return this.booksService
+      .removeBook(data.id, res.locals.sub)
+      .then(() => res.json({ message: 'Book has deleted' }));
   }
   @Get('/find')
   findSaves(@Response() res) {

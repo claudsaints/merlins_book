@@ -26,7 +26,7 @@ model User {
 
 model BooksInteraction {
   id       Int    @id @default(autoincrement())
-  bookId   String @unique
+  bookId   String 
   status   String 
   title    String
   link_img String
@@ -37,7 +37,7 @@ model BooksInteraction {
 
 model Reviews {
   id        Int      @id @default(autoincrement())
-  bookId    String   @unique
+  bookId    String   
   rate      Int      
   comment   String   
   userId    Int

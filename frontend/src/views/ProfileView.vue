@@ -1,13 +1,11 @@
 <script setup lang="ts">
 import { ref, provide } from 'vue';
-import type { BookVolume } from '@/types/books';
 import Header from '@/components/Header.vue';
 import SearchPopUp from '@/components/SearchPopUp.vue';
 import ProfileImage from '@/components/ProfileImage.vue';
 import Rating from '@/components/Rating.vue';
 import ProfileSaves from '@/components/ProfileSaves.vue';
 
-import type { SaveBook } from '@/types/api';
 
 const props = {
   isTrue: false,
@@ -15,8 +13,8 @@ const props = {
 
 
 
-const booksLidos = ref<SaveBook[]>([]);
-const listaDesejos = ref<SaveBook[]>([]);
+
+
 
 
 const showPopup = ref(false);
@@ -35,16 +33,6 @@ const closePopup = () => {
 };
 
 
-
-const addToList = (book: BookVolume, isLidos: boolean) => {
-  if (isLidos) {
-    booksLidos.value.push(book);
-  } else {
-    listaDesejos.value.push(book);
-  }
-  closePopup();
-};
-
 provide('open', openPopup);
 
 </script>
@@ -52,12 +40,12 @@ provide('open', openPopup);
 <template>
   <Header v-bind="props"></Header>
   <div class="container mx-auto p-4">
-    <ProfileImage/>
+    <ProfileImage />
     <ProfileSaves title="Livros Lidos" type="read" />
     <ProfileSaves title="Lista de desejo" type="wishlist" />
     <Rating />
   </div>
-  <SearchPopUp :popId="_popId" v-model="showPopup" @close="closePopup" @addBook="addToList" />
+  <SearchPopUp :popId="_popId" v-model="showPopup" @close="closePopup" />
 </template>
 
 <style scoped>

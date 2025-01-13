@@ -17,22 +17,26 @@ export class BooksService {
     const ndata = { ...data, userId };
     return this.prisma.booksInteraction.create({ data: ndata });
   }
-  async removeBook(data: { status: string; bookId: string }, userId: number) {
-    const ndata = { ...data, userId };
-    return this.prisma.booksInteraction.delete({ where: ndata });
+  async removeBook(id: number, userId: number) {
+    try {
+      return this.prisma.booksInteraction.delete({
+        where: { id: id, AND: { userId: userId } },
+      });
+    } catch (error) {
+      console.log(error);
+    }
   }
   async findUserSaves(sub: number) {
     console.log('sub: ' + sub);
     try {
-      const read = await this.prisma.booksInteraction.findFirst({
+      const read = await this.prisma.booksInteraction.findMany({
         where: { userId: { equals: sub }, AND: { status: 'read' } },
       });
-      const wishlist = await this.prisma.booksInteraction.findFirst({
+      const wishlist = await this.prisma.booksInteraction.findMany({
         where: { userId: { equals: sub }, AND: { status: 'wishlist' } },
       });
 
       const data = { wishlist: wishlist, read: read };
-      console.log(data);
 
       return data;
     } catch (err) {

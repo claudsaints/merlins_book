@@ -24,11 +24,11 @@ export class Books {
     }
   }
   static async deleteBook(
-    status: string,
-    bookId: string
+    id: number,
+
   ) {
     try {
-      const res = await merlins_api.delete("/books/delete", {data: {status,bookId}});
+      const res = await merlins_api.delete("/books/delete", {data: {id}});
       console.log(res);
     } catch (error) {
       console.log(error);
