@@ -22,7 +22,7 @@ export class Auth{
         const {access_token,nickname,profile_img} = res.data;
         sessionStorage.setItem('token',access_token);
         sessionStorage.setItem('nickname',nickname);
-        sessionStorage.setItem('profile_img',profile_img);
+        sessionStorage.setItem('image',profile_img);
       })
     } catch (err) {
       console.log("[PSIU] erro ao autenticar: ",err)

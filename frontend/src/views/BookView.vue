@@ -1,24 +1,28 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref,provide,watchEffect } from 'vue';
 import { useRoute } from 'vue-router';
 import { GoogleBooks } from '@/services/google';
 import type { BookVolume } from '@/types/books';
+import Rating from '@/components/Rating.vue'
 import Header from '@/components/Header.vue';
+import {Reviews} from '@/services/reviews'
+import type {Review} from '@/types/reviews'
+
 
 const props = {
   isTrue: false
 };
-// Pegando o ID do livro pela rota
+
 const route = useRoute();
 const bookId = route.params.id as string;
 
 
-// Estado reativo para armazenar o livro e a avaliação
+
 const book = ref<BookVolume | null>(null);
 const rating = ref<number>(0);
 const review = ref<string>('');
 
-// Função para buscar o livro específico
+
 const fetchBookDetails = async () => {
   try {
     const result = await GoogleBooks.obterDetalhes(bookId);
@@ -28,15 +32,29 @@ const fetchBookDetails = async () => {
   }
 };
 
-// Função para salvar a avaliação
+    const setRating = (valor: number) => {
+      rating.value = valor;
+    };
+
+
 const submitReview = () => {
-  // Aqui você pode integrar com o backend para salvar a avaliação
   console.log(`Avaliação: ${rating.value} estrelas`);
   console.log(`Comentário: ${review.value}`);
 };
 
-// Carregar os detalhes do livro quando a página for carregada
+
+
 fetchBookDetails();
+
+
+const avaliacoes = ref<Review[] >([])
+
+watchEffect(() => {
+  Reviews.findBookReviews(bookId).then((d) => avaliacoes.value = d);
+})
+
+
+provide('reviews', avaliacoes)
 </script>
 
 <template>
@@ -57,31 +75,37 @@ fetchBookDetails();
 
       <p><strong>Descrição:</strong> {{ book.volumeInfo.description.replace(/<[^>]*>/g, '') }}</p>
 
-      <!-- Seção de avaliação -->
-      <div class="mt-6">
+
+      <div class="mt-6 mb-6">
         <h3 class="text-2xl font-semibold">Avalie o livro</h3>
+        <div class="flex items-center space-x-1">
+    <label v-for="n in 5" :key="n">
 
-        <!-- Avaliação em estrelas -->
-        <div>
-          <label v-for="n in 5" :key="n">
-            <input type="radio" :value="n" v-model="rating" />
-            <span v-if="n <= rating">★</span>
-            <span v-else>☆</span>
-          </label>
-        </div>
+      <span
+        class="cursor-pointer text-2xl"
+        :class="{'text-yellow-400': n <= rating, 'text-gray-300': n > rating}"
+        @click="setRating(n)"
+      >
+        {{ n <= rating ? '★' : '☆' }}
+      </span>
+    </label>
+  </div>
 
-        <!-- Campo de comentário -->
         <div>
           <textarea v-model="review" placeholder="Deixe sua opinião..." rows="4" class="w-full p-2 border rounded-md mt-2"></textarea>
         </div>
 
-        <!-- Botão de envio -->
-        <button @click="submitReview" class="mt-4 bg-light-purple text-white py-2 px-4 rounded">Enviar Avaliação</button>
+        <button @click="submitReview" class="mt-4 btn">Enviar Avaliação</button>
       </div>
+      <Rating modo="book"/>
     </div>
   </div>
 
   <div v-else class="flex align-middle justify-center">
     <p>Carregando detalhes do livro...</p>
   </div>
+
+
+
+
 </template>

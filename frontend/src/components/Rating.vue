@@ -7,15 +7,24 @@
           :key="avaliacao.id"
           class="p-4 shadow-md flex flex-col items-center bg-gray-100 rounded-md"
         >
+          <div v-if="props.modo === 'book'" class="flex justify-center gap-2">
+            <img class=" self-center roudend h-8 w-8 " :src="`/${avaliacao.user.profile_img}.jpg`"/>
+
+            <h4 class="text-black">{{avaliacao.user.nickname}} </h4>
+          </div>
+
           <div class="flex justify-center mb-2">
             <span v-for="n in 5" :key="n" class="text-yellow-500">
-              <span v-if="n <= avaliacao.rating">★</span>
+              <span v-if="n <= avaliacao.rate">★</span>
               <span v-else>☆</span>
             </span>
           </div>
-          <p class="text-center text-black text-sm italic">{{ avaliacao.review }}</p>
+          <p class="text-center text-black text-sm italic">{{ avaliacao.comment }}</p>
           <button
-            @click="goToBookView(avaliacao.id)"
+            v-if="props.modo ==='profile'"
+
+
+            @click="goToBookView(avaliacao.bookId)"
             class="mt-4 btn py-2 px-4 "
           >
             Ver Livro
@@ -26,23 +35,23 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { inject } from 'vue';
 import { useRouter } from 'vue-router';
+import type {Review} from '@/types/reviews'
 
-const avaliacoes = ref([
-  { id: '1', rating: 4, review: 'Excelente livro, muito envolvente!' },
-  { id: '2', rating: 5, review: 'Uma das melhores leituras que já fiz!' },
-]);
 
+const props = defineProps({
+  modo: {
+      type: String,
+      required: true}
+})
+
+const avaliacoes =  inject<Review[]>('reviews')
 
 const router = useRouter();
 const goToBookView = (bookId: string) => {
   router.push({ name: 'book-view', params: { id: bookId } });
 };
 
-
 </script>
 
-<style scoped>
-
-</style>

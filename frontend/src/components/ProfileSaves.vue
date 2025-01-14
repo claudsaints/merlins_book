@@ -50,7 +50,7 @@ const data = ref<SaveBook[]>([])
 
 const removeBook = (book:SaveBook ) => {
 
-  data.value = data.value.filter(book => !book.id);
+  data.value = data.value.filter(item => item.id !== book.id );
 
 
   Books.deleteBook(book.id).then(() => {

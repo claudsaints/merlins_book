@@ -31,9 +31,23 @@ export class BooksService {
     try {
       const read = await this.prisma.booksInteraction.findMany({
         where: { userId: { equals: sub }, AND: { status: 'read' } },
+        select: {
+          id: true,
+          bookId: true,
+          status: true,
+          link_img: true,
+          title: true,
+        },
       });
       const wishlist = await this.prisma.booksInteraction.findMany({
         where: { userId: { equals: sub }, AND: { status: 'wishlist' } },
+        select: {
+          id: true,
+          bookId: true,
+          status: true,
+          link_img: true,
+          title: true,
+        },
       });
 
       const data = { wishlist: wishlist, read: read };

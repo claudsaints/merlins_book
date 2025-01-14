@@ -1,21 +1,16 @@
 <script setup lang="ts">
-import { ref, provide } from 'vue';
+import { ref, provide, watchEffect } from 'vue';
 import Header from '@/components/Header.vue';
 import SearchPopUp from '@/components/SearchPopUp.vue';
 import ProfileImage from '@/components/ProfileImage.vue';
 import Rating from '@/components/Rating.vue';
 import ProfileSaves from '@/components/ProfileSaves.vue';
-
+import {Reviews} from '@/services/reviews'
+import type {Review} from '@/types/reviews'
 
 const props = {
   isTrue: false,
 }
-
-
-
-
-
-
 
 const showPopup = ref(false);
 const _popId = ref('');
@@ -32,9 +27,15 @@ const closePopup = () => {
   _popId.value = ''
 };
 
+const avaliacoes = ref<Review[] >([])
+
+watchEffect(() => {
+  Reviews.findUserReviews().then((d) => avaliacoes.value = d);
+})
+
 
 provide('open', openPopup);
-
+provide('reviews', avaliacoes)
 </script>
 
 <template>
@@ -43,7 +44,7 @@ provide('open', openPopup);
     <ProfileImage />
     <ProfileSaves title="Livros Lidos" type="read" />
     <ProfileSaves title="Lista de desejo" type="wishlist" />
-    <Rating />
+    <Rating modo="profile"/>
   </div>
   <SearchPopUp :popId="_popId" v-model="showPopup" @close="closePopup" />
 </template>
