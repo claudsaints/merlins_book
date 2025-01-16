@@ -1,15 +1,15 @@
 <script setup lang="ts">
 import type { BookVolume } from '@/types/books';
 import { inject } from 'vue';
-import { useRouter } from 'vue-router'; // Para o redirecionamento
+import { useRouter } from 'vue-router';
 
-// injetando livros passadas pelo parente
+
 const books = inject<BookVolume[]>('books', []);
 
-// Obtendo o router para navegação
+
 const router = useRouter();
 console.log(books)
-// Função para redirecionar para a página do livro
+
 const goToBookView = (bookId: string) => {
   router.push({ name: 'book-view', params: { id: bookId } });
 };

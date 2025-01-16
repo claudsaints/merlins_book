@@ -1,6 +1,6 @@
 <template>
-  <div class="flex flex-row align-middle justify-center text-center m-5 p-2">
-    <img :src="`/${props.image_url}.jpg`" alt="selecinar imagem" class=" h-20 w-20 m-2"/>
+  <div class="flex flex-row align-middle justify-center text-center ">
+    <img :src="`/${props.image_url}.jpg`" alt="selecinar imagem" class=" h-20 w-20 p-2 m-2"/>
     <button @click="selection" class="bg-green-400 h-8 self-center rounded" >
       selecionar
     </button>

@@ -10,11 +10,13 @@
       <h2 class="text-2xl font-semibold">{{ nickname ? nickname : 'User Default' }}</h2>
     </div>
     <PopUp v-model="isVisible" >
-      <div v-for="name in image_links" :key="name"
-        class="flex align-middle justify-center"
-      >
+      <div class="flex flex-col  align-middle justify-center overflow-scroll">
+
+        <div v-for="name in image_links" :key="name"
+        >
         <SelectImage :image_url="name"/>
 
+      </div>
       </div>
     </PopUp>
   </div>
