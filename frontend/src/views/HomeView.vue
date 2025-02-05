@@ -77,7 +77,7 @@ provide('books', books);
         v-model="searchQuery"
         @keyup.enter="pesquisarLivros"
         type="text"
-        class="px-4 py-2 border rounded-lg w-80"
+        class="px-4 py-2 border rounded-lg w-80 text-black"
         placeholder="Pesquise por livros..."
       />
       <button

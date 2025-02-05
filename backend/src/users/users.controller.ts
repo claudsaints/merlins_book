@@ -35,7 +35,7 @@ export class UsersController {
         throw new HttpException(
           {
             status: HttpStatus.CONFLICT,
-            error: 'Nickname or Email already exists.',
+            error: error.message || 'Nickname or Email already exists.',
           },
           HttpStatus.CONFLICT,
           { cause: error },
@@ -53,12 +53,11 @@ export class UsersController {
     return this.usersService.login(data.email, data.password);
   }
   @Put('/image')
-  updateImage(@Response() res, @Body() choice: string) {
+  updateImage(@Response() res, @Body() data: { choice: string }) {
     return this.usersService
-      .updateProfileImage(choice, res.locals.sub)
+      .updateProfileImage(data.choice, res.locals.sub)
       .then(() => res.json({ message: 'Image Update Has Sucess' }));
   }
-
   @Get()
   findAll() {
     return this.usersService.findAll();

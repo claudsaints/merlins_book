@@ -1,6 +1,6 @@
 <template>
   <button @click="toggleDarkMode" class="btn">
-    Alternar Modo
+    <img class="h-full w-full" src="./icons/dark_mode.svg"/>
   </button>
 </template>
 

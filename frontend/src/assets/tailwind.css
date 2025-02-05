@@ -28,17 +28,26 @@ body.dark {
   color: theme('colors.text-dark');
 }
 
-
+label{
+  text-align: start;
+}
 
 
 a.dark {
   color: theme('colors.dark-purple');
 }
+.color{
+  @apply bg-light-purple
+}
+body.dark .color {
+  @apply  bg-dark-purple
+}
+body.dark hr{
+  @apply border-dark-purple
+}
 
-
-/* Adicionando estilo global para os inputs */
 .input-custom {
-  @apply w-full p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200;
+  @apply w-full p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-light-purple focus:border-light-purple transition duration-200;
 }
 
 

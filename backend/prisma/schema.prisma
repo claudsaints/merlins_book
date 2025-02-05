@@ -17,7 +17,7 @@ model User {
   id               Int                @id @default(autoincrement())
   nickname         String             @unique 
   email            String             @unique
-  password         String             @unique
+  password         String             
   profile_img      String
   createdAt        DateTime           @default(now())
   BooksInteraction BooksInteraction[]
