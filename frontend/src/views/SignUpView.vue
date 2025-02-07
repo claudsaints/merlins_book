@@ -44,6 +44,7 @@ import LoadingButton from '@/components/LoadingButton.vue'
 import { Auth } from '@/services/auth';
 import { reactive, ref } from 'vue';
 import router from '@/router';
+import { validateEmail, validateNickname, validatePassword } from '@/utils/validators';
 
 const isSubmitting = ref(false);
 const errorMessage = ref<string | null>(null);
@@ -61,11 +62,11 @@ const form = reactive<InputsProps>({
 });
 
 const handleSubmit = () => {
-  if (!validateEmail(email.value)) {
+  if (!validateEmail(form.email)) {
     errorMessage.value = "E-mail inválido.";
-  } else if (!validateNickname(nickname.value)) {
+  } else if (!validateNickname(form.nickname)) {
     errorMessage.value = "Nickname deve ter entre 6 e 24 caracteres.";
-  } else if (!validatePassword(password.value)) {
+  } else if (!validatePassword(form.password)) {
     errorMessage.value = "Senha deve ter entre 6 e 12 caracteres.";
   } else {
     errorMessage.value = null;

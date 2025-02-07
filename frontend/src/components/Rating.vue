@@ -8,7 +8,7 @@
           class="p-4 shadow-md flex flex-col items-center bg-gray-100 rounded-md"
         >
           <div v-if="props.modo === 'book'" class="flex justify-center gap-2">
-            <img class=" self-center roudend h-8 w-8 " :src="`/${avaliacao.user.profile_img}.jpg`"/>
+            <img class=" self-center roudend h-8 w-8 " :src="`/${avaliacao.user.profile_img}.png`"/>
 
             <h4 class="text-black">{{avaliacao.user.nickname}} </h4>
           </div>

@@ -54,9 +54,9 @@ const form = reactive<LoginProps>({
 });
 
 function handleLogin() {
-  if (!validateEmail(email.value)) {
+  if (!validateEmail(form.email)) {
     errorMessage.value = "E-mail inválido.";
-  } else if (!validatePassword(password.value)) {
+  } else if (!validatePassword(form.password)) {
     errorMessage.value = "Senha deve ter entre 6 e 12 caracteres.";
   } else {
     isSubmitting.value = true;

@@ -1,5 +1,7 @@
 import { google_api } from ".";
+import { Reviews } from "./reviews";
 import { type BooksProps, type BookVolume } from "@/types/books";
+
 const key = import.meta.env.VITE_TOKEN
 
 export class GoogleBooks {
@@ -13,6 +15,7 @@ export class GoogleBooks {
           key: key,
         }
       });
+      console.log("DATAPOP",data)
 
       return data;
     } catch (err) {
@@ -21,16 +24,16 @@ export class GoogleBooks {
     }
   }
 
-  static async buscarLivrosBemAvaliados(): Promise<BooksProps> {
+  static async buscarLivrosBemAvaliados():Promise<BooksProps> {
+    const data:BooksProps = {items: []}
+    const ranked = await Reviews.getRanked();
     try {
-      const { data } = await google_api.get(`/volumes`, {
-        params: {
-          q: 'top-rated',
-          maxResults: 10,
-          key: key,
-        }
-      });
-
+      for (const obj of ranked) {
+        //averiguar ou manteu uma função repetida apenas para esse metodos
+        const bookData: BookVolume = await this.obterDetalhes(obj.bookId);
+        data.items.push(bookData);
+      }
+      console.log("Data", data)
       return data;
     } catch (err) {
       console.log("[PSIU] erro ao buscar livros bem avaliados: ", err);

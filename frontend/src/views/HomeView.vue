@@ -1,26 +1,32 @@
 <script setup lang="ts">
 import Card from '@/components/Card.vue';
 import Header from '@/components/Header.vue';
-import { provide, reactive, watchEffect, ref } from 'vue';
+import { provide, watchEffect, ref } from 'vue';
 import { GoogleBooks } from '../services/google';
-import type { BookVolume } from '@/types/books';
+import type { BooksProps, BookVolume } from '@/types/books';
 
-
-const books = reactive<BookVolume[]>([]);
+const books = ref<BookVolume[]>([]);
 const searchQuery = ref('');
 const props = { isTrue: true};
 
+const fetchData = async (func: () => Promise<BooksProps>) => {
+  const result = await func();
+  if (Array.isArray(result.items)) {
+    books.value = [];
+    books.value.push(...result.items);
+  }
 
+}
 const pesquisarLivros = async () => {
   if (searchQuery.value.trim() === '') {
 
-    await buscarLivrosPopulares();
+    await fetchData(GoogleBooks.buscarLivrosPopulares);
   } else {
     try {
       const result = await GoogleBooks.pesquisarPorQuery(searchQuery.value);
       if (Array.isArray(result.items)) {
-        books.length = 0;
-        books.push(...result.items);
+        books.value = []
+        books.value.push(...result.items);
       } else {
         console.error("Erro: result.items não é um array", result);
       }
@@ -31,36 +37,8 @@ const pesquisarLivros = async () => {
 };
 
 
-const buscarLivrosPopulares = async () => {
-  const result = await GoogleBooks.buscarLivrosPopulares();
-  if (Array.isArray(result.items)) {
-    books.length = 0;
-    books.push(...result.items);
-  }
-};
-
-
-const buscarLivrosBemAvaliados = async () => {
-  const result = await GoogleBooks.buscarLivrosBemAvaliados();
-  if (Array.isArray(result.items)) {
-    books.length = 0;
-    books.push(...result.items);
-  }
-};
-
-
-const buscarLivrosGratuitos = async () => {
-  const result = await GoogleBooks.buscarLivrosGratuitos();
-  if (Array.isArray(result.items)) {
-    books.length = 0;
-    books.push(...result.items);
-  }
-};
-
-
-
 watchEffect(() => {
-  buscarLivrosPopulares();
+  fetchData(() => GoogleBooks.buscarLivrosPopulares())
 });
 
 
@@ -93,19 +71,19 @@ provide('books', books);
       <h2 class="text-2xl font-semibold mb-4 text-center">Livros Populares</h2>
       <div class="flex justify-center mb-4">
         <button
-          @click="buscarLivrosPopulares"
+          @click="fetchData(() => GoogleBooks.buscarLivrosPopulares())"
           class="px-4 py-2 bg-yellow-500 text-white rounded-lg"
         >
           Populares
         </button>
         <button
-          @click="buscarLivrosBemAvaliados"
+          @click="fetchData(() => GoogleBooks.buscarLivrosBemAvaliados())"
           class="ml-2 px-4 py-2 bg-green-500 text-white rounded-lg"
         >
           Bem Avaliados
         </button>
         <button
-          @click="buscarLivrosGratuitos"
+          @click="fetchData(() => GoogleBooks.buscarLivrosGratuitos())"
           class="ml-2 px-4 py-2 bg-gray-500 text-white rounded-lg"
         >
           Gratuitos

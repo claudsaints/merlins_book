@@ -5,7 +5,7 @@ export class Auth{
   static async signUp(nickname:string,email:string,password:string){
     try {
       await merlins_api.post("/users/register",{
-        nickname,email,profile_img:"default",password
+        nickname,email,password
       }).then(() => {
         this.signIn(email,password);
       })
@@ -28,5 +28,14 @@ export class Auth{
       console.log("[PSIU] erro ao autenticar: ",err)
     }
   }
+  static async updateImage(choice:string){
+    try {
+      await merlins_api.put("/users/image",{choice})
+      console.log("imagem atualizada")
+    } catch (err) {
+      console.log("[PSIU] erro ao atualizar imagem: ",err)
+    }
+  }
+
 }
 

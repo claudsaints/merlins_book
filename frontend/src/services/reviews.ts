@@ -1,3 +1,4 @@
+import type { RankedReviews } from "@/types/generic";
 import { merlins_api } from ".";
 
 export class Reviews {
@@ -33,5 +34,15 @@ export class Reviews {
 
     }
 
+  }
+  static async getRanked():Promise<RankedReviews[]>{
+    try{
+      const {data} = await merlins_api.get("/reviews/ranked");
+      return data;
+    }catch(error){
+      console.log(error);
+      throw new Error("[Psiu] Error to get ranked reviews");
+
+    }
   }
 }

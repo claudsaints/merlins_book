@@ -1,7 +1,7 @@
 ## Overview
 
 Este é um projeto full-stack utilizando Vue.js no front-end e NestJS no back-end.
-O objetivo é criar um plataforma de avalição de livros.
+O objetivo é criar um plataforma de avaliação de livros.
 
 ## Tecnologias Utilizadas
 

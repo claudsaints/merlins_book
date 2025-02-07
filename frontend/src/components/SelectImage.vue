@@ -8,6 +8,7 @@
 </template>
 
 <script setup lang="ts">
+import { Auth } from '@/services/auth';
 import { inject } from 'vue';
 
 
@@ -20,6 +21,7 @@ const image:any = inject('profileImage');
 
 const selection = () => {
   sessionStorage.setItem('image',props.image_url);
+  Auth.updateImage(props.image_url);
   image.value = sessionStorage.getItem('image');
 
 }
