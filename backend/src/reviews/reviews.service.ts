@@ -63,12 +63,24 @@ export class ReviewsService {
   }
   async getMostReviewBooks() {
     try {
-      const data = this.prisma.reviews.findMany({
-        distinct: 'bookId',
-        select: { bookId: true, rate: true },
-        orderBy: { rate: 'asc' },
+      const reviews = await this.prisma.reviews.groupBy({
+        by: ['bookId'],
+        _avg: { rate: true },
+        _count: { rate: true },
       });
-      return data;
+
+      const sortedReviews = reviews.sort((a, b) => {
+        if (b._avg.rate === a._avg.rate) {
+          return b._count.rate - a._count.rate;
+        }
+        return b._avg.rate - a._avg.rate;
+      });
+
+      return sortedReviews.map((review) => ({
+        bookId: review.bookId,
+        averageRate: review._avg.rate,
+        reviewCount: review._count.rate,
+      }));
     } catch (error) {
       throw new HttpException(
         'Error fetching: ' + error.message,

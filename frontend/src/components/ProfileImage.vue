@@ -9,6 +9,10 @@
     <div class="ml-4">
       <h2 class="text-2xl font-semibold">{{ nickname ? nickname : 'User Default' }}</h2>
     </div>
+    <div class="ml-4">
+      <button class="text-red-500" @click="logout">Logout</button>
+    </div>
+
     <PopUp v-model="isVisible" >
       <div class="flex flex-col  align-middle justify-center overflow-scroll">
 
@@ -19,6 +23,7 @@
       </div>
       </div>
     </PopUp>
+
   </div>
 </template>
 
@@ -34,6 +39,11 @@ const image_links: string [] =  ['default','bunny','frog','panda']
 const openPopup = () => {
   isVisible.value = true;
 };
+
+const logout = () => {
+  sessionStorage.clear();
+  window.location.replace('/login');
+}
 
 const profileImageName = ref(sessionStorage.getItem('image'));
 const nickname = sessionStorage.getItem('nickname');

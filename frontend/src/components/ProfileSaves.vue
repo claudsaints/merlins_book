@@ -32,7 +32,7 @@
 
 <script setup lang="ts">
 import { defineProps, inject, ref, watchEffect } from 'vue'
-import type { SaveBook } from '@/types/api'
+import type { BookSaves, SaveBook } from '@/types/api'
 import { Books } from '@/services/books'
 
 
@@ -44,7 +44,8 @@ const props = defineProps({
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const openPopup:any = inject('open')
-
+const saves = inject<BookSaves>('data')
+const fetchUserSaves = inject<() => Promise<void>>('fetchUserSaves');
 
 const data = ref<SaveBook[]>([])
 
@@ -62,13 +63,12 @@ const removeBook = (book:SaveBook ) => {
 
 
 watchEffect(() => {
-
-  Books.getUserSaves().then((d) => {
-
-    if (props.type === 'wishlist') {
-      data.value = d.wishlist
-    } else if (props.type === 'read') {
-      data.value = d.read
+  console.log("saves",saves)
+  fetchUserSaves?.().then(() => {
+    if (props.type === 'wishlist' && saves?.wishlist) {
+      data.value = saves.wishlist
+    } else if (props.type === 'read' && saves?.read) {
+      data.value = saves.read
     }
   })
 })

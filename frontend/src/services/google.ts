@@ -6,6 +6,7 @@ const key = import.meta.env.VITE_TOKEN
 
 export class GoogleBooks {
   static async buscarLivrosPopulares(): Promise<BooksProps> {
+    // startIndex: startIndex
     try {
       const { data } = await google_api.get(`/volumes`, {
         params: {

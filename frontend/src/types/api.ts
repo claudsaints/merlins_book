@@ -1,3 +1,10 @@
+export interface BookSaves{
+  read: SaveBook [];
+  wishlist:SaveBook [];
+
+}
+
+
 export interface SaveBook{
   id:number;
   status: string;

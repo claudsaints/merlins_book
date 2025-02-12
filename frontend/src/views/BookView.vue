@@ -39,7 +39,12 @@ const setRating = (valor: number) => {
 const submitReview = () => {
   isSubmitting.value = true;
   Reviews.createReview(bookId, rating.value, review.value)
-    .finally(() => isSubmitting.value = false);
+    .finally(() => {
+      isSubmitting.value = false;
+      fetchBookDetails();
+      Reviews.findBookReviews(bookId).then((d) => avaliacoes.value = d);
+    });
+
 
 };
 

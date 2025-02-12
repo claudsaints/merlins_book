@@ -34,7 +34,7 @@ export class BooksController {
   }
   @Get('/find')
   findSaves(@Response() res) {
-    console.log(res.locals.sub);
+    
     return this.booksService
       .findUserSaves(res.locals.sub)
       .then((data) => res.json(data));

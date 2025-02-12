@@ -1,12 +1,14 @@
+import type { BookSaves} from "@/types/api";
 import { merlins_api } from ".";
 
+
 export class Books {
-  static async getUserSaves() {
+  static async getUserSaves(): Promise<BookSaves > {
     try {
-      const res = await merlins_api.get("/books/find");
-      console.log(res.data)
-      return res.data;
+      const {data} = await merlins_api.get("/books/find");
+      return data;
     } catch (error) {
+      return {} as BookSaves;
       console.log(error);
     }
   }

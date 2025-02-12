@@ -27,7 +27,7 @@ export class BooksService {
     }
   }
   async findUserSaves(sub: number) {
-    console.log('sub: ' + sub);
+   
     try {
       const read = await this.prisma.booksInteraction.findMany({
         where: { userId: { equals: sub }, AND: { status: 'read' } },

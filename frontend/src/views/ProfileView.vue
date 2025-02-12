@@ -1,21 +1,33 @@
 <script setup lang="ts">
-import { ref, provide, watchEffect } from 'vue';
+import { ref, provide, watchEffect, reactive } from 'vue';
 import Header from '@/components/Header.vue';
 import PopUp from '@/components/PopUp.vue';
 import ProfileImage from '@/components/ProfileImage.vue';
 import Rating from '@/components/Rating.vue';
 import ProfileSaves from '@/components/ProfileSaves.vue';
-import {Reviews} from '@/services/reviews'
-import type {Review} from '@/types/reviews'
+import { Reviews } from '@/services/reviews'
+import type { Review } from '@/types/reviews'
 import Search from '@/components/Search.vue'
+import { Books } from '@/services/books';
+import type { BookSaves } from '@/types/api';
 
 const props = {
   isTrue: false,
 }
-
 const showPopup = ref(false);
 const _popId = ref('');
 
+const data = reactive<BookSaves>({ read: [], wishlist: [] });
+
+const fetchUserSaves = async () => {
+  try {
+    const d = await Books.getUserSaves()
+    Object.assign(data, d);
+    console.log("Livros salvos:", d);
+  } catch (error) {
+    console.error("Erro ao buscar livros salvos:", error);
+  }
+};
 
 const openPopup = (popId: string) => {
   showPopup.value = true;
@@ -23,7 +35,7 @@ const openPopup = (popId: string) => {
 };
 
 
-const avaliacoes = ref<Review[] >([])
+const avaliacoes = ref<Review[]>([])
 
 watchEffect(() => {
   Reviews.findUserReviews().then((d) => avaliacoes.value = d);
@@ -32,6 +44,8 @@ watchEffect(() => {
 
 provide('open', openPopup);
 provide('reviews', avaliacoes)
+provide('fetchUserSaves', fetchUserSaves);
+provide('data', data);
 </script>
 
 <template>
@@ -40,10 +54,10 @@ provide('reviews', avaliacoes)
     <ProfileImage />
     <ProfileSaves title="Livros Lidos" type="read" />
     <ProfileSaves title="Lista de desejo" type="wishlist" />
-    <Rating modo="profile"/>
+    <Rating modo="profile" />
   </div>
-  <PopUp v-model="showPopup" >
-    <Search :popId="_popId"/>
+  <PopUp v-model="showPopup">
+    <Search :popId="_popId" />
   </PopUp>
 </template>
 

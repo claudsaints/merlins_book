@@ -1,12 +1,22 @@
 <script setup lang="ts">
 import type { BookVolume } from '@/types/books';
-import { defineProps, reactive, ref } from 'vue';
+import { defineProps,  reactive, ref } from 'vue';
 import { GoogleBooks } from '../services/google';
 import { Books } from '@/services/books';
+import router from '@/router';
 
 const props = defineProps({
   popId: { type: String, required: true }
 });
+
+
+
+const update = () => {
+  setTimeout(() => {
+    console.log("Atualizando...");
+    router.go(0);
+  }, 10);
+};
 
 const books = reactive<BookVolume[]>([]);
 const searchQuery = ref('');
@@ -41,7 +51,7 @@ const pesquisarLivros = async () => {
       <img v-bind:src="book.volumeInfo.imageLinks.thumbnail" class="h-48 w-auto object-cover rounded-md shadow-md" />
       <h3 class="text-lg font-medium text-center truncate overflow-hidden text-ellipsis max-w-full">{{
         book.volumeInfo.title }}</h3>
-      <button @click="Books.saveBook(props.popId, book.id, book.volumeInfo.imageLinks.thumbnail, book.volumeInfo.title)"
+      <button @click="Books.saveBook(props.popId, book.id, book.volumeInfo.imageLinks.thumbnail, book.volumeInfo.title),update()"
         class="mt-2 bg-green-500 text-white py-2 px-4 rounded">
         Adicionar
       </button>

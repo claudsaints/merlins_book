@@ -7,6 +7,7 @@ import type { BooksProps, BookVolume } from '@/types/books';
 
 const books = ref<BookVolume[]>([]);
 const searchQuery = ref('');
+const categoria = ref('Livros Populares');
 const props = { isTrue: true};
 
 const fetchData = async (func: () => Promise<BooksProps>) => {
@@ -15,14 +16,15 @@ const fetchData = async (func: () => Promise<BooksProps>) => {
     books.value = [];
     books.value.push(...result.items);
   }
-
 }
+
 const pesquisarLivros = async () => {
   if (searchQuery.value.trim() === '') {
 
     await fetchData(GoogleBooks.buscarLivrosPopulares);
   } else {
     try {
+      categoria.value = `Resultados para "${searchQuery.value}"`;
       const result = await GoogleBooks.pesquisarPorQuery(searchQuery.value);
       if (Array.isArray(result.items)) {
         books.value = []
@@ -68,22 +70,22 @@ provide('books', books);
 
     <!-- Seção de Livros Populares -->
     <section class="mb-10">
-      <h2 class="text-2xl font-semibold mb-4 text-center">Livros Populares</h2>
+      <h2 class="text-2xl font-semibold mb-4 text-center">{{ categoria }}</h2>
       <div class="flex justify-center mb-4">
         <button
-          @click="fetchData(() => GoogleBooks.buscarLivrosPopulares())"
+          @click="fetchData(() => GoogleBooks.buscarLivrosPopulares()), categoria = 'Livros Populares'"
           class="px-4 py-2 bg-yellow-500 text-white rounded-lg"
         >
           Populares
         </button>
         <button
-          @click="fetchData(() => GoogleBooks.buscarLivrosBemAvaliados())"
+          @click="fetchData(() => GoogleBooks.buscarLivrosBemAvaliados()), categoria = 'Livros Bem Avaliados'"
           class="ml-2 px-4 py-2 bg-green-500 text-white rounded-lg"
         >
           Bem Avaliados
         </button>
         <button
-          @click="fetchData(() => GoogleBooks.buscarLivrosGratuitos())"
+          @click="fetchData(() => GoogleBooks.buscarLivrosGratuitos()), categoria = 'Livros Gratuitos'"
           class="ml-2 px-4 py-2 bg-gray-500 text-white rounded-lg"
         >
           Gratuitos
