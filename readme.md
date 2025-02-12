@@ -1,7 +1,10 @@
+<img src="https://github.com/claudsaints/merlins_book/blob/main/docs/login_merlins.jpg"/>
+<img src="https://github.com/claudsaints/merlins_book/blob/main/docs/search_merlins.jpg"/>
+
 ## Overview
 
 Este é um projeto full-stack utilizando Vue.js no front-end e NestJS no back-end.
-O objetivo é criar um plataforma de avaliação de livros.
+O objetivo é criar uma plataforma de avaliação de livros.
 
 ## Tecnologias Utilizadas
 
