@@ -100,6 +100,18 @@ provide('books', books);
     <div v-else>
       <p class="text-center text-xl">Carregando livros...</p>
     </div>
+    <div class="self-center justify-center align-middle justify-self-center bg-red-200 h-20 w-50 flex flex-row">
+      <button>
+        retrair
+      </button>
+      <p>
+        page
+      </p>
+      <button>
+        avançar
+      </button>
+    </div>
+
   </main>
 </template>
 

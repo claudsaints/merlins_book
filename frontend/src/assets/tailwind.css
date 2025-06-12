@@ -111,6 +111,9 @@ a:hover {
   text-decoration: underline;
 }
 
+.btn-about{
+  @apply border-white rounded h-12 w-20 border-solid border-2 hover:bg-slate-400;
+}
 
 ::-webkit-scrollbar {
   width: 8px;
