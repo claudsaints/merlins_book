@@ -1,9 +1,8 @@
 <template>
   <main class="flex flex-row">
     <AuthViewModel button_msg="Ainda não tem conta? Cadastre-se" button_ref="signup">
-
+      <h2 class="text-2xl self-start ml-6 font-bold text-light-purple  mb-4">Realizar Login</h2>
       <div class="w-full max-w-md mx-auto p-6 bg-white  ">
-        <h2 class="text-2xl text-black font-bold text-center mb-4">Login</h2>
         <form @submit.prevent="handleLogin">
           <div class="mb-4">
             <label for="email" class="block text-sm font-medium text-gray-700">Email</label>

@@ -1,3 +1,4 @@
+<!-- eslint-disable vue/multi-word-component-names -->
 <script setup lang="ts">
 import type { BookVolume } from '@/types/books';
 import { defineProps,  reactive, ref } from 'vue';

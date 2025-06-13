@@ -1,7 +1,9 @@
 <template>
-  <div class="flex flex-1 align-middle justify-center">
+  <div class="flex flex-1 align-middle justify-center flex-col items-center">
 
-    <img class="scale-x-[-1]" src="/merlin_read.png" />
+    <img src="/merlin_read.png" alt="Merlin's Book" class="w-60 h-60 md:w-96 md:h-96  scale-x-[-1]">
+    <p class="text-sm opacity-5">© 2024 Merlin's Book. Todos os direitos reservados.</p>
+    
   </div>
 </template>
 

@@ -5,26 +5,6 @@ import { type BooksProps, type BookVolume } from "@/types/books";
 const key = import.meta.env.VITE_TOKEN
 
 export class GoogleBooks {
-  static async buscarLivrosPopulares(): Promise<BooksProps> {
-    // startIndex: startIndex
-    try {
-      const { data } = await google_api.get(`/volumes`, {
-        params: {
-          q: 'top',
-          orderBy: 'relevance',
-          maxResults: 10,
-          key: key,
-        }
-      });
-      console.log("DATAPOP",data)
-
-      return data;
-    } catch (err) {
-      console.log("[PSIU] erro ao buscar livros populares: ", err);
-      throw err;
-    }
-  }
-
   static async buscarLivrosBemAvaliados():Promise<BooksProps> {
     const data:BooksProps = {items: []}
     const ranked = await Reviews.getRanked();
@@ -60,12 +40,13 @@ export class GoogleBooks {
       throw err;
     }
   }
-  static async buscarLivrosPorCategoria(categoria: string): Promise<BooksProps> {
+  static async buscarLivrosPorCategoria(categoria: string, startIndex = 0): Promise<BooksProps> {
     try {
       const { data } = await google_api.get(`/volumes`, {
         params: {
           q: `subject:${categoria}`,
           maxResults: 10,
+          startIndex,
           key: key,
         }
       });
@@ -92,16 +73,18 @@ export class GoogleBooks {
       throw err;
     }
   }
-  static async pesquisarPorQuery(query: string): Promise<BooksProps> {
+  static async pesquisarPorQuery(query: string, startIndex = 0): Promise<BooksProps> {
     try {
 
       if (!query.trim()) {
         throw new Error("A consulta não pode ser vazia");
       }
-
-      const { data } = await google_api.get(`/volumes?q=${query}`, {
+      const { data } = await google_api.get(`/volumes`, {
         params: {
-          key: key
+          q: query,
+          key: key,
+          startIndex,
+          maxResults: 10
         }
       });
       return data;

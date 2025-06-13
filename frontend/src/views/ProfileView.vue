@@ -38,7 +38,9 @@ const openPopup = (popId: string) => {
 const avaliacoes = ref<Review[]>([])
 
 watchEffect(() => {
-  Reviews.findUserReviews().then((d) => avaliacoes.value = d);
+  Reviews.findUserReviews()
+    .then((d) => avaliacoes.value = d.filter((r: { id: number | string; }) => r && r.id))
+    .catch(() => avaliacoes.value = []);
 })
 
 

@@ -1,6 +1,6 @@
 export interface BooksProps{
   items: BookVolume[];
-
+   totalItems?: number;
 }
 
 export interface BookVolume {

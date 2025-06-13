@@ -1,10 +1,9 @@
 <template>
   <main class="flex flex-row">
     <AuthViewModel button_msg="Já tem conta? Login" button_ref="login">
-      <div class="w-full max-w-md mx-auto p-6 bg-white ">
-        <!-- Título de Registro -->
-        <h2 class="text-2xl font-bold text-black text-center mb-4">Cadastro</h2>
-        <!-- Inputs de Registro -->
+      
+      <h2  class="text-2xl self-start ml-6 font-bold text-light-purple  mb-4 ">Crie sua conta!</h2>
+      <div class="w-[85%] max-w-md  mx-auto  ">
         <form @submit.prevent="handleSubmit">
           <div class="mb-4">
             <label for="nickname" class="block text-sm font-medium text-gray-700">Nickname</label>

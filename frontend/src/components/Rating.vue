@@ -1,9 +1,32 @@
+<!-- eslint-disable vue/multi-word-component-names -->
+<script setup lang="ts">
+import { inject } from 'vue';
+import { useRouter } from 'vue-router';
+import type {Review} from '../types/reviews'
+
+
+const props = defineProps({
+  modo: {
+      type: String,
+      required: true}
+})
+
+const avaliacoes = inject<Review[]>('reviews') || [];
+
+const router = useRouter();
+const goToBookView = (bookId: string) => {
+  router.push({ name: 'book-view', params: { id: bookId } });
+};
+
+</script>
+
+
 <template>
   <div class="mb-8">
       <h3 class="text-xl font-semibold mb-4">Avaliações</h3>
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         <div
-          v-for="avaliacao in avaliacoes"
+          v-for="avaliacao in avaliacoes.filter(a => a && a.id)"
           :key="avaliacao.id"
           class="p-4 shadow-md flex flex-col items-center bg-gray-100 rounded-md"
         >
@@ -33,25 +56,3 @@
       </div>
     </div>
 </template>
-
-<script setup lang="ts">
-import { inject } from 'vue';
-import { useRouter } from 'vue-router';
-import type {Review} from '@/types/reviews'
-
-
-const props = defineProps({
-  modo: {
-      type: String,
-      required: true}
-})
-
-const avaliacoes =  inject<Review[]>('reviews')
-
-const router = useRouter();
-const goToBookView = (bookId: string) => {
-  router.push({ name: 'book-view', params: { id: bookId } });
-};
-
-</script>
-
