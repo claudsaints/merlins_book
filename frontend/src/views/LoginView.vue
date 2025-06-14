@@ -51,18 +51,28 @@ const form = reactive<LoginProps>({
   password: ''
 });
 
-function handleLogin() {
+async function handleLogin() {
   if (!validateEmail(form.email)) {
-    errorMessage.value = "E-mail inválido.";
+    return errorMessage.value = "E-mail inválido.";
   } else if (!validatePassword(form.password)) {
-    errorMessage.value = "Senha deve ter entre 6 e 12 caracteres.";
-  } else {
-    isSubmitting.value = true;
-    isSubmitting.value = true;
-    Auth.signIn(form.email, form.password)
-      .then(() => router.push('/home'))
-      .finally(() => isSubmitting.value = false);
+    return errorMessage.value = "Senha deve ter entre 6 e 12 caracteres.";
+  } 
+  isSubmitting.value = true;
+  isSubmitting.value = true;
+
+  try{
+    await Auth.signIn(form.email, form.password);
+    router.push('/home');
+  }catch (error) {
+    console.log(error);
+   
+    errorMessage.value = "Ocorreu um erro ao realizar o login.";
+  
+  }finally{
+    isSubmitting.value = false;
+    
   }
+  
 
 }
 
