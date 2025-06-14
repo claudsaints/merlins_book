@@ -5,7 +5,7 @@ import BookCategoryBar from '@/components/BookCategoryBar.vue';
 import BookSearchBar from '@/components/BookSearchBar.vue';
 import BookList from '@/components/BookList.vue';
 import BookPagination from '@/components/BookPagination.vue';
-import { provide, watchEffect, ref } from 'vue';
+import { provide, ref } from 'vue';
 import { GoogleBooks } from '../services/google';
 import type { BooksProps, BookVolume } from '@/types/books';
 

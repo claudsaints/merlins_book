@@ -12,11 +12,31 @@ const props = defineProps({
 
 
 
-const update = () => {
-  setTimeout(() => {
-    console.log("Atualizando...");
-    router.go(0);
-  }, 10);
+const update = async () => {
+  return new Promise<void>((resolve) => {
+    setTimeout(() => {
+      console.log("Atualizando...");
+      router.go(0);
+      resolve();
+    }, 10);
+  });
+};
+
+const handleUpdate = async () => {
+  try {
+    await update();
+  } catch (err) {
+    console.error('Erro ao atualizar:', err);
+  }
+};
+
+const handleAddBook = async (popId: string, book: BookVolume) => {
+  try {
+    await Books.saveBook(popId, book.id, book.volumeInfo.imageLinks?.thumbnail || '', book.volumeInfo.title);
+    await handleUpdate();
+  } catch (err) {
+    console.error('Erro ao adicionar livro:', err);
+  }
 };
 
 const books = reactive<BookVolume[]>([]);
@@ -56,7 +76,7 @@ const pesquisarLivros = async () => {
       <h3 class="text-lg font-medium text-center truncate overflow-hidden text-ellipsis max-w-full">
         {{ book.volumeInfo.title || 'Sem título' }}
       </h3>
-      <button @click="Books.saveBook(props.popId, book.id, book.volumeInfo.imageLinks?.thumbnail || '', book.volumeInfo.title),update()"
+      <button @click="handleAddBook(props.popId, book)"
         class="mt-2 bg-green-500 text-white py-2 px-4 rounded">
         Adicionar
       </button>

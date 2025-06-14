@@ -49,16 +49,16 @@ const fetchUserSaves = inject<() => Promise<void>>('fetchUserSaves');
 
 const data = ref<SaveBook[]>([])
 
-const removeBook = (book:SaveBook ) => {
+const removeBook = async (book:SaveBook ) => {
 
   data.value = data.value.filter(item => item.id !== book.id );
 
-
-  Books.deleteBook(book.id).then(() => {
-    console.log('Livro removido com sucesso');
-  }).catch((error) => {
-    console.error('Erro ao remover livro:', error);
-  });
+  try{
+    await Books.deleteBook(book.id);
+    console.log("Livro removido com sucesso:", book);
+  }catch (error) {
+    console.error("Erro ao remover livro:", error);
+  }
 }
 
 
