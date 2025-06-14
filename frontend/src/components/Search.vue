@@ -48,11 +48,15 @@ const pesquisarLivros = async () => {
     </button>
   </div>
   <div class="mb-4 flex h-3/4  gap-4 flex-col overflow-scroll items-center">
-    <div v-for="book in books" :key="book.id" class="card p-4 w-3/4 shadow-md flex flex-col items-center">
-      <img v-bind:src="book.volumeInfo.imageLinks.thumbnail" class="h-48 w-auto object-cover rounded-md shadow-md" />
-      <h3 class="text-lg font-medium text-center truncate overflow-hidden text-ellipsis max-w-full">{{
-        book.volumeInfo.title }}</h3>
-      <button @click="Books.saveBook(props.popId, book.id, book.volumeInfo.imageLinks.thumbnail, book.volumeInfo.title),update()"
+    <div v-for="book in books" :key="book.id" class="p-4 w-3/4 shadow-md flex flex-col items-center">
+      <img v-if="book.volumeInfo.imageLinks && book.volumeInfo.imageLinks.thumbnail" :src="book.volumeInfo.imageLinks.thumbnail" class="h-48 w-auto object-cover rounded-md shadow-md" />
+      <div v-else class="h-48 w-auto flex items-center justify-center bg-gray-200 rounded-md shadow-md text-gray-500">
+        Sem imagem
+      </div>
+      <h3 class="text-lg font-medium text-center truncate overflow-hidden text-ellipsis max-w-full">
+        {{ book.volumeInfo.title || 'Sem título' }}
+      </h3>
+      <button @click="Books.saveBook(props.popId, book.id, book.volumeInfo.imageLinks?.thumbnail || '', book.volumeInfo.title),update()"
         class="mt-2 bg-green-500 text-white py-2 px-4 rounded">
         Adicionar
       </button>

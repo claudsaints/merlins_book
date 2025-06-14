@@ -3,7 +3,7 @@
     <AuthViewModel button_msg="Ainda não tem conta? Cadastre-se" button_ref="signup">
       <h2 class="text-2xl self-start ml-6 font-bold text-light-purple  mb-4">Realizar Login</h2>
       <div class="w-full max-w-md mx-auto p-6 bg-white  ">
-        <form @submit.prevent="handleLogin">
+        <form>
           <div class="mb-4">
             <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
             <input id="email" type="email" v-model="form.email" placeholder="Digite seu email" class="input-custom" />
@@ -15,8 +15,7 @@
               class="input-custom" />
           </div>
 
-
-          <LoadingButton :isLoading="isSubmitting">
+          <LoadingButton :isLoading="isSubmitting" @click.prevent="handleLogin" :disabled="isSubmitting" class="mt-4">
             Entrar
           </LoadingButton>
         </form>

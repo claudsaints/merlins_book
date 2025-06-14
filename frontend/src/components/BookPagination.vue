@@ -5,17 +5,17 @@
       :disabled="page === 1"
       @click="$emit('change', page - 1)"
     >
-      ◀ Anterior
+       Anterior
     </button>
     <span class="text-lg font-semibold text-dark-purple">
-      Página {{ page }} de {{ totalPages }}
+      Página {{ page }} de {{ totalPages > 1000 ? "1000...": totalPages }}
     </span>
     <button
       class="px-4 py-2 rounded-lg bg-light-purple text-white font-bold shadow-md transition hover:bg-dark-purple disabled:opacity-50"
       :disabled="page === totalPages"
       @click="$emit('change', page + 1)"
     >
-      Próxima ▶
+      Próxima 
     </button>
   </div>
 </template>

@@ -19,9 +19,9 @@ const props = defineProps({
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const image:any = inject('profileImage');
 
-const selection = () => {
+const selection = async () => {
   sessionStorage.setItem('image',props.image_url);
-  Auth.updateImage(props.image_url);
+  await Auth.updateImage(props.image_url);
   image.value = sessionStorage.getItem('image');
 
 }

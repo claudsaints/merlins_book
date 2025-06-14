@@ -5,7 +5,7 @@
       <div
         v-for="book in data"
         :key="book.bookId"
-        class="card p-4 shadow-md flex flex-col items-center"
+        class="p-4 shadow-md flex flex-col items-center"
       >
         <img
           v-bind:src="book.link_img"

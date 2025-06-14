@@ -1,15 +1,9 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "mysql"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
@@ -44,4 +38,202 @@ model Reviews {
   user      User     @relation(fields: [userId], references: [id])
   createdAt DateTime @default(now())
 }
+model grupo {
+  id            Int       @id
+  gru_descricao String    @db.VarChar
+  produto       produto[]
+}
 
+model historico_provas {
+  idperguntas Int
+  idprova     Int
+  resposta    Boolean
+  perguntas   perguntas @relation(fields: [idperguntas], references: [idperguntas], onDelete: NoAction, onUpdate: NoAction)
+  prova       prova     @relation(fields: [idprova], references: [idprova], onDelete: Cascade)
+
+  @@id([idperguntas, idprova])
+}
+
+model perguntas {
+  idperguntas      Int                @id @default(autoincrement())
+  enunciado        String             @db.VarChar(1000)
+  resposta         Boolean
+  historico_provas historico_provas[]
+}
+
+model preparacao {
+  id               Int                @id
+  pre_descricao    String             @db.VarChar
+  prodprep         prodprep[]
+  usr_consome_taco usr_consome_taco[] @ignore
+  usr_fav_prodprep usr_fav_prodprep[] @ignore
+}
+
+model prod_usr {
+  id                            Int                    @id @default(autoincrement())
+  user_default_id               Int?
+  nome                          String
+  descricao                     String
+  quantidade_por_porcao         Float?
+  unidade_quantidade_por_porcao String?
+  calorias                      Float?
+  proteina                      Float?
+  carboidrato                   Float?
+  acucares                      Float?
+  fibras                        Float?
+  gordura_total                 Float?
+  gordura_saturada              Float?
+  gordura_trans                 Float?
+  calcio                        Float?
+  sodio                         Float?
+  user_default                  user_default?          @relation(fields: [user_default_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  usr_consome_prod_usr          usr_consome_prod_usr[] @ignore
+  usr_fav_produser              usr_fav_produser[]     @ignore
+}
+
+model prodprep {
+  id               Int                @id @default(autoincrement())
+  pp_produto       Int
+  pp_preparacao    Int
+  pp_energia       Float?
+  pp_proteina      Float?
+  pp_lipidios      Float?
+  pp_carboidrato   Float?
+  pp_fibra         Float?
+  pp_colesterol    Float?
+  pp_agsaturado    Float?
+  pp_agmono        Float?
+  pp_agpoli        Float?
+  pp_aglinoleico   Float?
+  pp_aglinolenico  Float?
+  pp_agtranstotal  Float?
+  pp_acucartotal   Float?
+  pp_acucaradicao  Float?
+  pp_calcio        Float?
+  pp_magnesio      Float?
+  pp_manganes      Float?
+  pp_fosforo       Float?
+  pp_ferro         Float?
+  pp_sodio         Float?
+  pp_sodioadicao   Float?
+  pp_potassio      Float?
+  pp_cobre         Float?
+  pp_zinco         Float?
+  pp_selenio       Float?
+  pp_retinol       Float?
+  pp_vitamina_a    Float?
+  pp_tiamina       Float?
+  pp_riboflavina   Float?
+  pp_niacina       Float?
+  pp_niacina_ne    Float?
+  pp_piridoxina    Float?
+  pp_cobalamina    Float?
+  pp_folato        Float?
+  pp_vitamina_d    Float?
+  pp_vitamina_e    Float?
+  pp_vitamina_c    Float?
+  preparacao       preparacao         @relation(fields: [pp_preparacao], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  produto          produto            @relation(fields: [pp_produto], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  usr_consome_taco usr_consome_taco[] @ignore
+}
+
+model produto {
+  id               Int                @id
+  pro_descricao    String             @db.VarChar
+  pro_grupo        Int
+  prodprep         prodprep[]
+  grupo            grupo              @relation(fields: [pro_grupo], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_pro_grupo")
+  usr_fav_prodprep usr_fav_prodprep[] @ignore
+}
+
+model prova {
+  idprova          Int                @id @default(autoincrement())
+  idusuario        Int
+  datahorario      DateTime           @default(now()) @db.Timestamp(6)
+  nota             Float?
+  historico_provas historico_provas[]
+  usuario          usuario            @relation(fields: [idusuario], references: [idusuario], onDelete: Cascade)
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model user_dados {
+  user_default_id Int
+  altura          Decimal?     @db.Decimal(3, 0)
+  peso            Decimal?     @db.Decimal(5, 2)
+  genero          String?
+  obj_peso        String?
+  data_nasc       DateTime?    @db.Date
+  atv_fisica      String?
+  user_default    user_default @relation(fields: [user_default_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@ignore
+}
+
+model user_default {
+  id                   Int                    @id @default(autoincrement())
+  email                String                 @unique @db.Char(256)
+  pass                 String
+  nome                 String?
+  data_entrada         DateTime               @default(now()) @db.Timestamp(6)
+  prod_usr             prod_usr[]
+  user_dados           user_dados[]           @ignore
+  usr_consome_prod_usr usr_consome_prod_usr[] @ignore
+  usr_consome_taco     usr_consome_taco[]     @ignore
+  usr_fav_prodprep     usr_fav_prodprep[]     @ignore
+  usr_fav_produser     usr_fav_produser[]     @ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model usr_consome_prod_usr {
+  user_default_id      Int
+  prod_usr_id          Int
+  data_consumo         DateTime?    @db.Timestamp(6)
+  quantidade_consumida Float?
+  prod_usr             prod_usr     @relation(fields: [prod_usr_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  user_default         user_default @relation(fields: [user_default_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model usr_consome_taco {
+  prod_prep_id         Int
+  prep_id              Int
+  user_default_id      Int
+  data_consumo         DateTime?    @db.Timestamp(6)
+  quantidade_consumida Float?
+  preparacao           preparacao   @relation(fields: [prep_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  prodprep             prodprep     @relation(fields: [prod_prep_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  user_default         user_default @relation(fields: [user_default_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model usr_fav_prodprep {
+  usr_def_id    Int
+  produto_id    Int
+  preparacao_id Int
+  preparacao    preparacao   @relation(fields: [preparacao_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  produto       produto      @relation(fields: [produto_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  user_default  user_default @relation(fields: [usr_def_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model usr_fav_produser {
+  usr_def_id   Int
+  prod_usr_id  Int
+  prod_usr     prod_usr     @relation(fields: [prod_usr_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  user_default user_default @relation(fields: [usr_def_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@ignore
+}
+
+model usuario {
+  idusuario Int     @id @default(autoincrement())
+  mail      String  @db.VarChar(50)
+  nome      String  @db.VarChar(100)
+  prova     prova[]
+}

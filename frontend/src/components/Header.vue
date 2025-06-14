@@ -4,7 +4,10 @@
     <h1 @click="redirect('/home')" class=" text-dark-purple self-center cursor-pointer"> Merlin's Book</h1>
     <div v-if="isTrue" class="flex h-auto ">
       <SwitchDarkMode />
-      <img @click="redirect('/profile')" class="self-center hover:cursor-pointer ml-4 h-6 w-6" src="./icons/profile.svg" />
+      <button class="btn">
+
+        <img  @click="redirect('/profile')" class="h-full w-full" src="./icons/profile.svg" />
+      </button>
     </div>
 
   </header>

@@ -80,11 +80,6 @@ const goToPage = async (newPage: number) => {
   isLoading.value = false;
 };
 
-watchEffect(() => {
-  // Default para ficção
-  fetchData(() => GoogleBooks.buscarLivrosPorCategoria('fiction'), { categoria: 'fiction', startIndex: 0 });
-  categoria.value = 'Ficção';
-});
 
 provide('books', books);
 </script>

@@ -4,7 +4,7 @@
       
       <h2  class="text-2xl self-start ml-6 font-bold text-light-purple  mb-4 ">Crie sua conta!</h2>
       <div class="w-[85%] max-w-md  mx-auto  ">
-        <form @submit.prevent="handleSubmit">
+        <form>
           <div class="mb-4">
             <label for="nickname" class="block text-sm font-medium text-gray-700">Nickname</label>
             <input id="nickname" type="text" v-model="form.nickname" placeholder="Digite seu nickname"
@@ -22,7 +22,7 @@
               class="input-custom" />
           </div>
 
-          <LoadingButton :isLoading="isSubmitting">
+          <LoadingButton :isLoading="isSubmitting" @click.prevent="handleSubmit" :disabled="isSubmitting" class="mt-4">
             Registrar
           </LoadingButton>
         </form>
@@ -60,20 +60,28 @@ const form = reactive<InputsProps>({
   password: ''
 });
 
-const handleSubmit = () => {
+const handleSubmit = async () => {
   if (!validateEmail(form.email)) {
-    errorMessage.value = "E-mail inválido.";
+    return errorMessage.value = "E-mail inválido.";
   } else if (!validateNickname(form.nickname)) {
-    errorMessage.value = "Nickname deve ter entre 6 e 24 caracteres.";
+    return errorMessage.value = "Nickname deve ter entre 6 e 24 caracteres.";
   } else if (!validatePassword(form.password)) {
-    errorMessage.value = "Senha deve ter entre 6 e 12 caracteres.";
-  } else {
+    return errorMessage.value = "Senha deve ter entre 6 e 12 caracteres.";
+  } 
+
     errorMessage.value = null;
     isSubmitting.value = true;
-    Auth.signUp(form.nickname, form.email, form.password)
-      .then(() => router.push('/home'))
-      .finally(() => isSubmitting.value = false);
+    try{
+      await Auth.signUp(form.nickname, form.email, form.password);
+      router.push('/home')
+    }catch(error) {
+      console.error(error);
+      errorMessage.value = "Erro ao criar conta. Tente novamente.";
+    } finally {
+      isSubmitting.value = false;
+    }
+  
   }
-}
+
 
 </script>
